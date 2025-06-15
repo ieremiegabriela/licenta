@@ -1,0 +1,140 @@
+body {
+	background-image: linear-gradient(to bottom right, #89cff077, #fcb04599);
+}
+nav.navbar {
+	background-image: linear-gradient(#ea931a, #ce801277);
+	backdrop-filter: blur(10px); /* Blur effect */
+	-webkit-backdrop-filter: blur(10px); /* Safari support */
+}
+a {
+	text-decoration: none !important;
+}
+h1,
+h2,
+h3 {
+	font-family: "Kaushan Script", cursive;
+}
+.myform {
+	position: relative;
+	display: -ms-flexbox;
+	display: flex;
+	padding: 1rem;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	width: 100%;
+	pointer-events: auto;
+	background-color: #fff;
+	background-clip: padding-box;
+	outline: 0;
+}
+.tx-tfm {
+	text-transform: uppercase;
+}
+.mybtn {
+	border-radius: 50px;
+	min-width: 50px;
+}
+
+.mybtn:hover {
+	background-color: #0fcaf022 !important;
+}
+
+.login-or {
+	position: relative;
+	color: #aaa;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.span-or {
+	display: block;
+	position: absolute;
+	left: 50%;
+	top: -1px;
+	margin-left: -25px;
+	background-color: #fff;
+	width: 50px;
+	text-align: center;
+}
+.hr-or {
+	height: 1px;
+	margin-top: 0px !important;
+	margin-bottom: 0px !important;
+}
+form .error {
+	color: #ff0000;
+}
+#registerSection {
+	display: none;
+}
+
+.overlay {
+	background-color: rgba(0, 0, 0, 0.25);
+	z-index: 9999;
+	cursor: not-allowed;
+}
+.custom-border-radius {
+	border-radius: 1.1rem;
+}
+.custom-rounded-bottom {
+	border-radius: 0 0 0.35rem 0.35rem;
+}
+.message-status {
+	font-size: 0.8rem;
+}
+.message-container {
+	max-width: 70%;
+	cursor: pointer;
+}
+.empty-chat {
+	background-image: linear-gradient(to bottom right, #89cff077, #fcb04599);
+	color: white;
+	text-shadow: 1px 0 #ccc, -1px 0 #ccc, 0 1px #ccc, 0 -1px #ccc, 1px 1px #ccc, -1px -1px #ccc, 1px -1px #ccc,
+		-1px 1px #ccc;
+}
+
+.text-shadow {
+	color: white;
+	text-shadow: 1px 0 #ccc, -1px 0 #ccc, 0 1px #ccc, 0 -1px #ccc, 1px 1px #ccc, -1px -1px #ccc, 1px -1px #ccc,
+		-1px 1px #ccc;
+}
+
+div.dt-container .dt-search input,
+div.dt-container select.dt-input {
+	border-radius: 8px !important;
+}
+
+div.dt-container .dt-paging .dt-paging-button {
+	background-color: #0fcaf0aa !important;
+	color: white !important;
+	border: none !important;
+	padding: 8px 12px !important;
+	margin: 2px !important;
+	cursor: pointer !important;
+	font-size: 14px !important;
+	border-radius: 8px !important;
+	transition: background-color 0.3s ease !important;
+}
+
+div.dt-container .dt-paging .dt-paging-button.disabled {
+	background-color: #ccc !important;
+	color: #666 !important;
+	cursor: not-allowed !important;
+}
+
+div.dt-container .dt-paging {
+	display: flex !important;
+	justify-content: center !important;
+	align-items: center !important;
+	padding: 10px !important;
+}
+
+div.dt-container .dt-length,
+div.dt-container .dt-search,
+div.dt-container .dt-info,
+div.dt-container .dt-processing,
+div.dt-container .dt-paging {
+	font-style: italic !important;
+	margin-left: 20px;
+}
