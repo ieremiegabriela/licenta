@@ -104,9 +104,9 @@ $sql = implode(" UNION ", $sql);
 
 // --------------------------------------------------
 
-$stmt = $mysqli->prepare($sql);
+if (strlen($sql)) $stmt = $mysqli->prepare($sql);
 
-if ($stmt->execute()):
+if (strlen($sql) && $stmt->execute()):
 
     $result = $stmt->get_result();
 
@@ -146,7 +146,11 @@ else:
     ];
 endif;
 
-mysqli_stmt_close($stmt);
+if (strlen($sql)):
+    mysqli_stmt_close($stmt);
+else:
+    $output['data'] = [];
+endif;
 
 // END - RETRIEVE LAST MESSAGE & UNREAD COUNT -------
 ?>
@@ -209,6 +213,16 @@ mysqli_stmt_close($stmt);
                     </div>
                 <?php
                 endforeach;
+
+                // --------------------------------------------------
+
+                if (!sizeof($output['data'])):
+                ?>
+                    <div class="message-container d-flex flex-column justify-content-center align-items-center mt-5 mb-1 ms-auto me-auto">
+                        <div class="empty-chat message bg-info-subtle p-2 custom-border-radius border fs-5">No chats here yet. Be the first to start a conversation!</div>
+                    </div>
+                <?php
+                endif;
 
                 // END - BUILD THE HTML CHAT CARDS ------------------
                 ?>

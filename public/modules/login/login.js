@@ -3,6 +3,8 @@ disableDocumentKeyboardInput();
 $(() => {
 	hideLoadingGifOverlay();
 
+	$("#emailLogin").focus();
+
 	// --------------------------------------------------
 
 	$("#signup").click((event) => {
@@ -10,15 +12,23 @@ $(() => {
 
 		$("#loginSection").fadeOut("fast", () => {
 			$(".alert").addClass("d-none");
-			$("#registerSection").fadeIn("fast");
+			$("#registerSection").fadeIn("fast", () => {
+				$("#firstnameRegister").focus();
+			});
 		});
 	});
 
+	// --------------------------------------------------
+
 	$("#signin").click(function () {
 		$("#registerSection").fadeOut("fast", () => {
-			$("#loginSection").fadeIn("fast");
+			$("#loginSection").fadeIn("fast", () => {
+				$("#emailLogin").focus();
+			});
 		});
 	});
+
+	// --------------------------------------------------
 
 	$("form[name='login']").validate({
 		rules: {
@@ -42,6 +52,8 @@ $(() => {
 		},
 	});
 
+	// --------------------------------------------------
+
 	$.validator.addMethod(
 		"passwordMatch",
 		function (value, element) {
@@ -53,17 +65,7 @@ $(() => {
 		"The passwords do not match"
 	);
 
-	$.validator.addMethod(
-		"uniqueEmail",
-		function (value, element) {
-			checkUniqueEmail(email).success((data) => {
-				let jsonObj = $.parseJSON(data);
-			});
-
-			return false;
-		},
-		"An account already exists linked to this email address"
-	);
+	// --------------------------------------------------
 
 	$("form[name='registration']").validate({
 		rules: {
@@ -72,7 +74,15 @@ $(() => {
 			emailRegister: {
 				required: true,
 				email: true,
-				uniqueEmail: true,
+				remote: {
+					url: "modules/login/handlers/check_unique_email.php",
+					type: "GET",
+					data: {
+						Code: function () {
+							return $("#emailRegister").val();
+						},
+					},
+				},
 			},
 			passwordRegister: {
 				required: true,
@@ -89,7 +99,7 @@ $(() => {
 			lastnameRegister: "Please enter your lastname",
 			emailRegister: {
 				email: "Please enter a valid email address",
-				uniqueEmail: "An account already exists linked to this email address",
+				remote: "An account already exists linked to this email address",
 			},
 			passwordRegister: {
 				required: "Please provide a password",
@@ -106,20 +116,3 @@ $(() => {
 		},
 	});
 });
-
-// BEGIN - AJAX CALLS -------------------------------
-
-function checkUniqueEmail(email) {
-	let request = $.ajax({
-		url: "modules/login/handlers/check_unique_email.php",
-		data: {
-			email: email,
-		},
-		type: "POST",
-		success: () => {},
-	});
-
-	return request;
-}
-
-// END - AJAX CALLS ---------------------------------

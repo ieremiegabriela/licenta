@@ -70,14 +70,16 @@ $sql =
 
 // --------------------------------------------------
 
-$stmt = $mysqli->prepare($sql);
-$stmt->bind_param(
-    "ssss",
+$params = [
     $input['firstnameRegister'],
     $input['lastnameRegister'],
     $input['emailRegister'],
     password_hash($input['passwordRegister'], PASSWORD_DEFAULT)
-);
+];
+$types = str_repeat("s", sizeof($params));
+
+$stmt = $mysqli->prepare($sql);
+$stmt->bind_param($types, ...$params);
 
 if ($stmt->execute()):
 

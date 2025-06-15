@@ -19,18 +19,22 @@ require_once("{$_SERVER['DOCUMENT_ROOT']}/helpers/php/helper_functions.php");
 // BEGIN - INITIAL SECURITY SCREEN ------------------
 
 switch (true):
-
-    case ($_SERVER['REQUEST_METHOD'] !== "POST"):
-    case (!isset($_POST['email'])):
+    case ($_SERVER['REQUEST_METHOD'] !== "GET"):
+    case (!isset($_GET['emailRegister'])):
 
         die(header("{$_SERVER['SERVER_PROTOCOL']} 404 Not Found"));
 
         break;
 endswitch;
 
-$input = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
 // END - INITIAL SECURITY SCREEN --------------------
+
+
+// BEGIN - FILTER INPUT -----------------------------
+
+$input = filter_input_array(INPUT_GET, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+// END - FILTER INPUT -------------------------------
 
 
 // BEGIN - REQUESTING INITIAL DEPENDENCIES ----------
@@ -52,12 +56,12 @@ $sql =
     
     FROM `users`
     
-    WHERE `users`.`email` = ? AND `users`.`enabled` = 1";
+    WHERE `users`.`email` = ?";
 
 // --------------------------------------------------
 
 $stmt = $mysqli->prepare($sql);
-$stmt->bind_param("s", $input['email']);
+$stmt->bind_param("s", $input['emailRegister']);
 
 if ($stmt->execute()):
 
@@ -68,7 +72,7 @@ if ($stmt->execute()):
         'success' => 1,
         'message' => 'Success!',
         'data' => [
-            'uniqueEmail' => (int)$row['count'] > 0 ? false : true
+            'uniqueEmail' => (int)$row['count'] > 0 ? 'false' : 'true'
         ]
     ];
 else:
@@ -92,4 +96,4 @@ require_once("{$_SERVER['DOCUMENT_ROOT']}/config/db_disconnect.php");
 
 // END - REQUESTING FINAL DEPENDENCIES --------------
 
-die(json_encode($output));
+die($output['success'] ? $output['data']['uniqueEmail'] : 'false');

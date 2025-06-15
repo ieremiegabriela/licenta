@@ -60,10 +60,17 @@ require_once("{$_SERVER['DOCUMENT_ROOT']}/config/config.php");
         <div class="row justify-content-md-center">
             <div class="col-lg-6">
 
-                <div class="alert alert-danger alert-dismissible d-none" role="alert">
-                    <strong>Holy guacamole!</strong>&nbsp;Incorrect credentials.
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
+                <?php
+                if (isset($_SESSION['mismatchedCredentials']) && $_SESSION['mismatchedCredentials']):
+                    unset($_SESSION['mismatchedCredentials']);
+                ?>
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <strong>Holy guacamole!</strong>&nbsp;Incorrect credentials.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php
+                endif;
+                ?>
 
 
                 <div id="loginSection">

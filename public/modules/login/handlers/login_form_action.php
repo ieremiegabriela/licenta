@@ -72,11 +72,15 @@ if ($stmt->execute()):
     $output = [
         'success' => 1,
         'message' => 'Success!',
-        'data' => [
+        'data' => null
+    ];
+
+    if ((int)mysqli_num_rows($result)):
+        $output['data'] = [
             'authenticated' => password_verify($input['passwordLogin'], $row['password']),
             'id' => password_verify($input['passwordLogin'], $row['password']) ? $row['id'] : null
-        ]
-    ];
+        ];
+    endif;
 else:
 
     $output = [
@@ -106,6 +110,8 @@ switch (true):
     case ($output['success'] === 0):
     case (!$output['data']):
     case (!$output['data']['authenticated']):
+
+        $_SESSION['mismatchedCredentials'] = true;
 
         die(header("Location: /login.php"));
 
