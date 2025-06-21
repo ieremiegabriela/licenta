@@ -5,7 +5,7 @@
 session_start();
 
 define("helper_functions.php", true);
-require_once("{$_SERVER['DOCUMENT_ROOT']}/helpers/php/helper_functions.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}helpers/php/helper_functions.php");
 
 switch (true):
     case (!isset($_SESSION['authenticated'])):
@@ -29,13 +29,13 @@ $input = filter_input_array(INPUT_GET, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 // BEGIN - INITIAL CONFIG & DEPENDENCIES ------------
 
 define("config.php", true);
-require_once("{$_SERVER['DOCUMENT_ROOT']}/config/config.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}config/config.php");
 
 define('parameters.php', true);
-require("{$_SERVER['DOCUMENT_ROOT']}/config/parameters.php");
+require("{$_SERVER['DOCUMENT_ROOT']}config/parameters.php");
 
 define('db_connect.php', true);
-require("{$_SERVER['DOCUMENT_ROOT']}/config/db_connect.php");
+require("{$_SERVER['DOCUMENT_ROOT']}config/db_connect.php");
 
 // END - INITIAL CONFIG & DEPENDENCIES --------------
 
@@ -115,7 +115,7 @@ endif;
 
     <?php
     define("_libs.php", true);
-    require_once("{$_SERVER['DOCUMENT_ROOT']}/_libs.php");
+    require_once("{$_SERVER['DOCUMENT_ROOT']}_libs.php");
     ?>
 
     <!-- -------------------------------------------------- -->
@@ -133,7 +133,7 @@ endif;
 </head>
 
 <?php
-require_once("{$_SERVER['DOCUMENT_ROOT']}/modules/chat/page/body.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}modules/chat/page/body.php");
 ?>
 
 </html>

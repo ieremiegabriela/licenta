@@ -11,7 +11,7 @@ mb_internal_encoding("UTF-8");
 date_default_timezone_set("UTC");
 
 define("helper_functions.php", true);
-require_once("{$_SERVER['DOCUMENT_ROOT']}/helpers/php/helper_functions.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}helpers/php/helper_functions.php");
 
 // END - INITIAL CONFIG -----------------------------
 
@@ -39,10 +39,10 @@ $input = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 // BEGIN - REQUESTING INITIAL DEPENDENCIES ----------
 
 define('parameters.php', true);
-require_once("{$_SERVER['DOCUMENT_ROOT']}/config/parameters.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}config/parameters.php");
 
 define('db_connect.php', true);
-require_once("{$_SERVER['DOCUMENT_ROOT']}/config/db_connect.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}config/db_connect.php");
 
 // END - REQUESTING INITIAL DEPENDENCIES ------------
 
@@ -107,8 +107,31 @@ mysqli_stmt_close($stmt);
 // BEGIN - REQUESTING FINAL DEPENDENCIES ------------
 
 define('db_disconnect.php', true);
-require_once("{$_SERVER['DOCUMENT_ROOT']}/config/db_disconnect.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}config/db_disconnect.php");
 
 // END - REQUESTING FINAL DEPENDENCIES --------------
+
+
+// BEGIN - TRIGGER WELCOME EMAIL --------------------
+
+$ch = curl_init();
+
+curl_setopt($ch, CURLOPT_URL, "{$_SESSION['DOCKER_ORIGIN']}/helpers/php/handlers/welcome_mail.php");
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, [
+    'mailTo' => $input['emailRegister'],
+    'locationOrigin' => $_SESSION['LOCATION_ORIGIN']
+]);
+
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Important!
+curl_setopt($ch, CURLOPT_TIMEOUT, 10); // Give it enough time to respond
+curl_setopt($ch, CURLOPT_HEADER, false);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Only use in local/test environments
+
+curl_exec($ch);
+curl_close($ch);
+
+// END - TRIGGER WELCOME EMAIL ----------------------
+
 
 die(header("Location: /login.php"));

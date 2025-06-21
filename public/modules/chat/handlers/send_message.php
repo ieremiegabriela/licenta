@@ -11,7 +11,7 @@ mb_internal_encoding("UTF-8");
 date_default_timezone_set("UTC");
 
 define("helper_functions.php", true);
-require_once("{$_SERVER['DOCUMENT_ROOT']}/helpers/php/helper_functions.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}helpers/php/helper_functions.php");
 
 // END - INITIAL CONFIG -----------------------------
 
@@ -55,10 +55,10 @@ $input['id'] = (int)$input['id'];
 // BEGIN - REQUESTING INITIAL DEPENDENCIES ----------
 
 define('parameters.php', true);
-require_once("{$_SERVER['DOCUMENT_ROOT']}/config/parameters.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}config/parameters.php");
 
 define('db_connect.php', true);
-require_once("{$_SERVER['DOCUMENT_ROOT']}/config/db_connect.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}config/db_connect.php");
 
 // END - REQUESTING INITIAL DEPENDENCIES ------------
 
@@ -167,7 +167,7 @@ mysqli_stmt_close($stmt);
 // BEGIN - REQUESTING FINAL DEPENDENCIES ------------
 
 define('db_disconnect.php', true);
-require_once("{$_SERVER['DOCUMENT_ROOT']}/config/db_disconnect.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}config/db_disconnect.php");
 
 // END - REQUESTING FINAL DEPENDENCIES --------------
 

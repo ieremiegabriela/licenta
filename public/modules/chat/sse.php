@@ -60,7 +60,7 @@ while (true) {
 
     // Capture dynamic content from the included file
     ob_start();
-    require("{$_SERVER['DOCUMENT_ROOT']}/modules/chat/page/body.php");
+    require("{$_SERVER['DOCUMENT_ROOT']}modules/chat/page/body.php");
     $outputBuffer = ob_get_clean();
 
     // JSON encode the output

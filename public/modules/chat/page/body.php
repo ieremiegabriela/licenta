@@ -3,10 +3,10 @@
 // BEGIN - REQUESTING INITIAL DEPENDENCIES ----------
 
 if (!defined('parameters.php')) define('parameters.php', true);
-require("{$_SERVER['DOCUMENT_ROOT']}/config/parameters.php");
+require("{$_SERVER['DOCUMENT_ROOT']}config/parameters.php");
 
 if (!defined('db_connect.php')) define('db_connect.php', true);
-require("{$_SERVER['DOCUMENT_ROOT']}/config/db_connect.php");
+require("{$_SERVER['DOCUMENT_ROOT']}config/db_connect.php");
 
 // END - REQUESTING INITIAL DEPENDENCIES ------------
 
@@ -191,7 +191,7 @@ mysqli_stmt_close($stmt);
     <!-- Navigation -->
     <?php
     if (!defined("_navigation.php")) define("_navigation.php", true);
-    require("{$_SERVER['DOCUMENT_ROOT']}/_navigation.php");
+    require("{$_SERVER['DOCUMENT_ROOT']}_navigation.php");
     ?>
 
     <!-- Page Content -->
@@ -262,7 +262,7 @@ mysqli_stmt_close($stmt);
 // BEGIN - REQUESTING FINAL DEPENDENCIES ------------
 
 if (!defined('db_disconnect.php')) define('db_disconnect.php', true);
-require("{$_SERVER['DOCUMENT_ROOT']}/config/db_disconnect.php");
+require("{$_SERVER['DOCUMENT_ROOT']}config/db_disconnect.php");
 
 // END - REQUESTING FINAL DEPENDENCIES --------------
 ?>

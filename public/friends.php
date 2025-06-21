@@ -5,7 +5,7 @@
 session_start();
 
 define("helper_functions.php", true);
-require_once("{$_SERVER['DOCUMENT_ROOT']}/helpers/php/helper_functions.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}helpers/php/helper_functions.php");
 
 switch (true):
     case (!isset($_SESSION['authenticated'])):
@@ -24,13 +24,13 @@ endswitch;
 // BEGIN - INITIAL CONFIG & DEPENDENCIES ------------
 
 define("config.php", true);
-require_once("{$_SERVER['DOCUMENT_ROOT']}/config/config.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}config/config.php");
 
 define('parameters.php', true);
-require("{$_SERVER['DOCUMENT_ROOT']}/config/parameters.php");
+require("{$_SERVER['DOCUMENT_ROOT']}config/parameters.php");
 
 define('db_connect.php', true);
-require("{$_SERVER['DOCUMENT_ROOT']}/config/db_connect.php");
+require("{$_SERVER['DOCUMENT_ROOT']}config/db_connect.php");
 
 // END - INITIAL CONFIG & DEPENDENCIES --------------
 
@@ -55,7 +55,7 @@ require("{$_SERVER['DOCUMENT_ROOT']}/config/db_connect.php");
 
     <?php
     define("_libs.php", true);
-    require_once("{$_SERVER['DOCUMENT_ROOT']}/_libs.php");
+    require_once("{$_SERVER['DOCUMENT_ROOT']}_libs.php");
     ?>
 
     <!-- -------------------------------------------------- -->
@@ -78,7 +78,7 @@ require("{$_SERVER['DOCUMENT_ROOT']}/config/db_connect.php");
     <!-- Navigation -->
     <?php
     define("_navigation.php", true);
-    require("{$_SERVER['DOCUMENT_ROOT']}/_navigation.php");
+    require("{$_SERVER['DOCUMENT_ROOT']}_navigation.php");
     ?>
 
     <!-- Page Content -->
@@ -115,7 +115,7 @@ require("{$_SERVER['DOCUMENT_ROOT']}/config/db_connect.php");
 // BEGIN - REQUESTING FINAL DEPENDENCIES ------------
 
 define('db_disconnect.php', true);
-require("{$_SERVER['DOCUMENT_ROOT']}/config/db_disconnect.php");
+require("{$_SERVER['DOCUMENT_ROOT']}config/db_disconnect.php");
 
 // END - REQUESTING FINAL DEPENDENCIES --------------
 ?>
