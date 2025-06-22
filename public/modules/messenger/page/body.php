@@ -2,8 +2,8 @@
 
 // BEGIN - REQUESTING INITIAL DEPENDENCIES ----------
 
-if (!defined('parameters.php')) define('parameters.php', true);
-require("{$_SERVER['DOCUMENT_ROOT']}config/parameters.php");
+if (!defined('load_env.php')) define('load_env.php', true);
+require("{$_SERVER['DOCUMENT_ROOT']}config/load_env.php");
 
 if (!defined('db_connect.php')) define('db_connect.php', true);
 require("{$_SERVER['DOCUMENT_ROOT']}config/db_connect.php");

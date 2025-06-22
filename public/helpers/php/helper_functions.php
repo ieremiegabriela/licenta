@@ -54,6 +54,16 @@ function sendEmail(
             case (!$htmlBodyPath):
                 throw new Exception("Missing mandatory parameter/s");
                 break;
+
+            case (!isset($_ENV['SEL_SMTP'])):
+            case (!isset($_ENV["{$_ENV['SEL_SMTP']}_SMTP_SERVER"])):
+            case (!isset($_ENV["{$_ENV['SEL_SMTP']}_SMTP_SECURITY"])):
+            case (!isset($_ENV["{$_ENV['SEL_SMTP']}_SMTP_PORT"])):
+            case (!isset($_ENV["{$_ENV['SEL_SMTP']}_SMTP_AUTH_USERNAME"])):
+            case (!isset($_ENV["{$_ENV['SEL_SMTP']}_SMTP_AUTH_PASSWORD"])):
+                throw new Exception("Missing mandatory environment parameter/s");
+                break;
+
             case (!$mailObj instanceof PHPMailer):
                 throw new Exception("Invalid argument type | instanceof PHPMailer required");
                 break;
@@ -63,22 +73,22 @@ function sendEmail(
         // Send using SMTP
         $mailObj->isSMTP();
         // Set the SMTP server to send through
-        $mailObj->Host = 'smtp.mailersend.net';
+        $mailObj->Host = $_ENV["{$_ENV['SEL_SMTP']}_SMTP_SERVER"];
         // Enable SMTP authentication
         $mailObj->SMTPAuth = true;
         // SMTP username
-        $mailObj->Username = 'MS_f6H2gB@test-69oxl5evj0kl785k.mlsender.net';
+        $mailObj->Username = $_ENV["{$_ENV['SEL_SMTP']}_SMTP_AUTH_USERNAME"];
         // SMTP password
-        $mailObj->Password = "mssp.zVelb4I.z86org8zvxegew13.Q7I5crc";
+        $mailObj->Password = $_ENV["{$_ENV['SEL_SMTP']}_SMTP_AUTH_PASSWORD"];
         // Enable implicit TLS encryption
         $mailObj->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mailObj->Port = 587;
 
         // Recipients
-        $mailObj->setFrom('MS_f6H2gB@test-69oxl5evj0kl785k.mlsender.net', 'Marked as Safe');
+        $mailObj->setFrom($_ENV["{$_ENV['SEL_SMTP']}_SMTP_AUTH_USERNAME"], 'Marked as Safe');
         // Add a recipient
         $mailObj->addAddress($recipient);
-        $mailObj->addReplyTo('MS_f6H2gB@test-69oxl5evj0kl785k.mlsender.net', 'Marked as Safe');
+        $mailObj->addReplyTo($_ENV["{$_ENV['SEL_SMTP']}_SMTP_AUTH_USERNAME"], 'Marked as Safe');
 
         // Content
         // Set email format to HTML

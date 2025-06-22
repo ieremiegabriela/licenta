@@ -2,8 +2,8 @@
 
 // BEGIN - REQUESTING INITIAL DEPENDENCIES ----------
 
-if (!defined('parameters.php')) define('parameters.php', true);
-require("{$_SERVER['DOCUMENT_ROOT']}config/parameters.php");
+if (!defined('load_env.php')) define('load_env.php', true);
+require("{$_SERVER['DOCUMENT_ROOT']}config/load_env.php");
 
 if (!defined('db_connect.php')) define('db_connect.php', true);
 require("{$_SERVER['DOCUMENT_ROOT']}config/db_connect.php");
@@ -198,7 +198,7 @@ mysqli_stmt_close($stmt);
     <div class="container d-flex mt-3 px-2" style="height: calc(100% - 1.6rem);">
         <div class="position-relative container d-flex flex-column col-lg-10 p-0 bg-light border border-2 border-primary-subtle shadow custom-border-radius h-100">
             <!-- Title -->
-            <div class="p-2 d-flex flex-row w-100">
+            <div class="pt-2 px-2 d-flex flex-row w-100">
                 <h1 class="fw-bold m-0 pb-1 text-dark border-bottom border-2 w-100">
                     <a href="messenger.php">
                         <i class="fa-solid fa-circle-left text-info"></i>

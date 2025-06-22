@@ -1,18 +1,27 @@
 <?php
 
-// BEGIN - INITIAL SECURITY SCREEN ------------------
+// BEGIN - SECURITY SCREEN --------------------------
 
-if (!defined('db_connect.php')):
+switch (true):
+    case (!defined('db_connect.php')):
+    case (!isset($_ENV['DB_HOST'])):
+    case (!isset($_ENV['DB_USERNAME'])):
+    case (!isset($_ENV['DB_PASSWORD'])):
+    case (!isset($_ENV['DB_NAME'])):
+        die(header("{$_SERVER['SERVER_PROTOCOL']} 404 Not Found"));
+endswitch;
 
-    die(header("{$_SERVER['SERVER_PROTOCOL']} 404 Not Found"));
-endif;
-
-// END - INITIAL SECURITY SCREEN --------------------
+// END - SECURITY SCREEN ----------------------------
 
 
 // BEGIN - DB CONNECTION ----------------------------
 
-$mysqli = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+$mysqli = new mysqli(
+    $_ENV['DB_HOST'],
+    $_ENV['DB_USERNAME'],
+    $_ENV['DB_PASSWORD'],
+    $_ENV['DB_NAME']
+);
 
 // Check connection
 if ($mysqli->connect_errno):

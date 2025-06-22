@@ -138,3 +138,11 @@ div.dt-container .dt-paging {
 	font-style: italic !important;
 	margin-left: 20px;
 }
+
+img.logo {
+	max-height: 3.7rem;
+}
+
+img.nav-logo {
+	max-height: 1.9rem;
+}

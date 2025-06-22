@@ -38,8 +38,8 @@ $input = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 // BEGIN - REQUESTING INITIAL DEPENDENCIES ----------
 
-define('parameters.php', true);
-require_once("{$_SERVER['DOCUMENT_ROOT']}config/parameters.php");
+define('load_env.php', true);
+require_once("{$_SERVER['DOCUMENT_ROOT']}config/load_env.php");
 
 define('db_connect.php', true);
 require_once("{$_SERVER['DOCUMENT_ROOT']}config/db_connect.php");

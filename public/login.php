@@ -75,13 +75,14 @@ require_once("{$_SERVER['DOCUMENT_ROOT']}config/config.php");
 
                 <div id="loginSection">
                     <div class="myform form custom-border-radius border border-2 border-info-subtle">
-                        <div class="logo mb-3">
-                            <div class="col-md-12 text-center">
-                                <h1>Login</h1>
+                        <div class="logo py-2">
+                            <div class="col-md-12 text-center d-flex flex-row justify-content-between align-items-center">
+                                <h1 class="">Login</h1>
+                                <img class="logo img-fluid" src="<?php echo "{$_SESSION['LOCATION_ORIGIN']}/assets/img/logo.png"; ?>" alt="#">
                             </div>
                         </div>
 
-                        <form action="modules/login/handlers/login_form_action.php" method="post" name="login">
+                        <form class="pt-2" action="modules/login/handlers/login_form_action.php" method="post" name="login">
                             <div class="form-group mb-3">
                                 <label for="emailLogin">Email address</label>
                                 <input type="email" name="emailLogin" class="form-control" id="emailLogin" aria-describedby="emailHelp" placeholder="Enter email">
@@ -112,13 +113,14 @@ require_once("{$_SERVER['DOCUMENT_ROOT']}config/config.php");
 
                 <div id="registerSection">
                     <div class="myform form custom-border-radius border border-2 border-info-subtle">
-                        <div class="logo mb-3">
-                            <div class="col-md-12 text-center">
-                                <h1>Signup</h1>
+                        <div class="logo py-2">
+                            <div class="col-md-12 text-center d-flex flex-row justify-content-between align-items-center">
+                                <h1 class="">Signup</h1>
+                                <img class="logo img-fluid" src="<?php echo "{$_SESSION['LOCATION_ORIGIN']}/assets/img/logo.png"; ?>" alt="#">
                             </div>
                         </div>
 
-                        <form action="modules/login/handlers/register_form_action.php" method="post" name="registration">
+                        <form class="pt-2" action="modules/login/handlers/register_form_action.php" method="post" name="registration">
                             <div class="form-group mb-3">
                                 <label for="firstnameRegister">First Name</label>
                                 <input type="text" name="firstnameRegister" class="form-control" id="firstnameRegister" aria-describedby="emailHelp" placeholder="Enter Firstname">

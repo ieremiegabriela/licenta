@@ -31,8 +31,8 @@ $input = filter_input_array(INPUT_GET, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 define("config.php", true);
 require_once("{$_SERVER['DOCUMENT_ROOT']}config/config.php");
 
-define('parameters.php', true);
-require("{$_SERVER['DOCUMENT_ROOT']}config/parameters.php");
+define('load_env.php', true);
+require("{$_SERVER['DOCUMENT_ROOT']}config/load_env.php");
 
 define('db_connect.php', true);
 require("{$_SERVER['DOCUMENT_ROOT']}config/db_connect.php");
