@@ -146,3 +146,12 @@ img.logo {
 img.nav-logo {
 	max-height: 1.9rem;
 }
+
+.scale-plus-25 {
+	scale: 1.25 !important;
+}
+
+button.clear-btn {
+	background-color: rgba(0, 0, 0, 0);
+	border: none;
+}

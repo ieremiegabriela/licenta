@@ -64,15 +64,16 @@ require("{$_SERVER['DOCUMENT_ROOT']}config/db_connect.php");
 
     <script type="text/javascript">
         localStorage.setItem("authToken", "<?php echo $_SESSION['authToken'] ?>");
-        const input = null;
     </script>
     <script type="text/javascript" src="<?php echo "{$_SESSION['LOCATION_ORIGIN']}/helpers/js/helper_functions.js"; ?>"></script>
     <script type="text/javascript" src="<?php echo "{$_SESSION['LOCATION_ORIGIN']}/modules/friends/view.js"; ?>"></script>
-    <script type="text/javascript" src="<?php echo "{$_SESSION['LOCATION_ORIGIN']}/modules/friends/page/js/body.js"; ?>"></script>
 </head>
 
 <?php
-require_once("{$_SERVER['DOCUMENT_ROOT']}modules/friends/page/body.php");
-?>
+// BEGIN - REQUESTING FINAL DEPENDENCIES ------------
 
-</html>
+define('db_disconnect.php', true);
+require("{$_SERVER['DOCUMENT_ROOT']}config/db_disconnect.php");
+
+// END - REQUESTING FINAL DEPENDENCIES --------------
+?>
