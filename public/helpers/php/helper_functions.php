@@ -10,7 +10,7 @@ require("{$_SERVER['DOCUMENT_ROOT']}vendor/autoload.php");
 
 if (!defined('helper_functions.php')):
 
-    die(header("{$_SERVER['SERVER_PROTOCOL']} 404 Not Found"));
+    die(http_response_code(404));
 endif;
 
 // END - INITIAL SECURITY SCREEN --------------------

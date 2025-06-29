@@ -9,7 +9,7 @@ switch (true):
     case ($_SERVER['REQUEST_METHOD'] !== "GET"):
     case (!isset($_GET['input'])):
 
-        die(header("{$_SERVER['SERVER_PROTOCOL']} 404 Not Found"));
+        die(http_response_code(404));
 endswitch;
 
 // --------------------------------------------------
@@ -22,7 +22,7 @@ $input = filter_var_array($input, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 switch (true):
     case (!isset($input['id'])):
 
-        die(header("{$_SERVER['SERVER_PROTOCOL']} 404 Not Found"));
+        die(http_response_code(404));
 endswitch;
 
 // --------------------------------------------------

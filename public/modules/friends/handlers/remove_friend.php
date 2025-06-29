@@ -19,11 +19,11 @@ require_once("{$_SERVER['DOCUMENT_ROOT']}helpers/php/helper_functions.php");
 // BEGIN - INITIAL SECURITY SCREEN ------------------
 
 switch (true):
-    case ($_SERVER['REQUEST_METHOD'] !== "GET"):
-    case (!isset($_GET['emailRegister'])):
-
+    case (!isset($_SESSION['authenticated'])):
+    case (isset($_SESSION['authenticated']) && !$_SESSION['authenticated']):
+    case ($_SERVER['REQUEST_METHOD'] !== "POST"):
+    case (!isset($_POST['userId'])):
         die(http_response_code(404));
-
         break;
 endswitch;
 
@@ -32,7 +32,9 @@ endswitch;
 
 // BEGIN - FILTER INPUT -----------------------------
 
-$input = filter_input_array(INPUT_GET, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$input = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$input['user'] = (int)$_SESSION['id'];
+$input['userId'] = (int)$input['userId'];
 
 // END - FILTER INPUT -------------------------------
 
@@ -48,45 +50,58 @@ require_once("{$_SERVER['DOCUMENT_ROOT']}config/db_connect.php");
 // END - REQUESTING INITIAL DEPENDENCIES ------------
 
 
-// BEGIN - CHECK THE UNIQUENESS OF THE EMAIL --------
+// BEGIN - REVOKE FRIEND REQUEST --------------------
 
 $sql =
-    "SELECT 
-        COUNT(*) AS `count`
-    
-    FROM `users`
-    
-    WHERE `users`.`email` = ?";
+    "UPDATE `friends`
+    INNER JOIN `users` ON (`users`.`id` = `friends`.`sender` AND
+                            `users`.`enabled` = 1)
+    INNER JOIN `users` AS `a_users` ON (`a_users`.`id` = `friends`.`recipient` AND
+                                        `a_users`.`enabled` = 1)
+
+    SET `friends`.`enabled` = 0
+
+    WHERE `friends`.`enabled` = 1
+    AND `friends`.`accepted` = 1
+    AND ? IN (`friends`.`sender`, `friends`.`recipient`)
+    AND ? IN (`friends`.`sender`, `friends`.`recipient`)
+
+    ORDER BY `friends`.`id` DESC
+    LIMIT 1";
 
 // --------------------------------------------------
 
+$output = [
+    'success' => 0,
+    'message' => 'Ooops! Something went wrong...',
+    'data' => null
+];
+
+// --------------------------------------------------
+
+$params = [
+    $input['user'],
+    $input['userId'],
+];
+$types = str_repeat("i", sizeof($params));
+
 $stmt = $mysqli->prepare($sql);
-$stmt->bind_param("s", $input['emailRegister']);
+$stmt->bind_param($types, ...$params);
 
 if ($stmt->execute()):
-
-    $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
+    if (!(int)$stmt->affected_rows) die(json_encode($output));
 
     $output = [
         'success' => 1,
         'message' => 'Success!',
-        'data' => [
-            'uniqueEmail' => (int)$row['count'] > 0 ? 'false' : 'true'
-        ]
-    ];
-else:
-
-    $output = [
-        'success' => 0,
-        'message' => 'Ooops! Something went wrong...',
         'data' => null
     ];
+else: die(json_encode($output));
 endif;
 
 mysqli_stmt_close($stmt);
 
-// END - CHECK THE UNIQUENESS OF THE EMAIL ----------
+// END - REVOKE FRIEND REQUEST ----------------------
 
 
 // BEGIN - REQUESTING FINAL DEPENDENCIES ------------
@@ -96,4 +111,5 @@ require_once("{$_SERVER['DOCUMENT_ROOT']}config/db_disconnect.php");
 
 // END - REQUESTING FINAL DEPENDENCIES --------------
 
-die($output['success'] ? $output['data']['uniqueEmail'] : 'false');
+
+die(json_encode($output));

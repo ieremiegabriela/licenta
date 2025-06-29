@@ -14,7 +14,7 @@ switch (true):
         break;
 
     case ($_SERVER['REQUEST_METHOD'] !== "GET"):
-        die(header("{$_SERVER['SERVER_PROTOCOL']} 404 Not Found"));
+        die(http_response_code(404));
         break;
 endswitch;
 

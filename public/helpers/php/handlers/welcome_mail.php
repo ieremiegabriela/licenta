@@ -6,7 +6,7 @@ switch (true):
     case ($_SERVER['REQUEST_METHOD'] !== "POST"):
     case (!isset($_POST['mailTo'])):
     case (!isset($_POST['locationOrigin'])):
-        die(header("{$_SERVER['SERVER_PROTOCOL']} 404 Not Found"));
+        die(http_response_code(404));
         break;
 endswitch;
 
@@ -65,8 +65,8 @@ if ($stmt->execute()):
     $result = $stmt->get_result();
     $row = $result->fetch_assoc();
 
-    if (!(int)$result->num_rows) die(json_encode($output));
-    // if (!(int)$result->num_rows) $row['full_name'] = "X";
+    if (!$result->num_rows) die(json_encode($output));
+    // if (!$result->num_rows) $row['full_name'] = "X";
 
     $output = [
         'success' => 1,

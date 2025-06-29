@@ -28,7 +28,12 @@ $sql =
             WHEN `pseudo`.`status` = 'Accepted' THEN 'remove fa-solid fa-user-minus text-dark'
             WHEN `pseudo`.`sender` = ? AND `pseudo`.`status` = 'Pending' THEN 'revoke fa-solid fa-xmark text-dark'
             WHEN `pseudo`.`recipient` = ? AND `pseudo`.`status` = 'Pending' THEN 'accept fa-solid fa-check text-dark|revoke fa-solid fa-xmark text-dark'
-        END AS `actions_classes`
+        END AS `action_classes`,
+        CASE
+            WHEN `pseudo`.`status` = 'Accepted' THEN 'remove-friend'
+            WHEN `pseudo`.`sender` = ? AND `pseudo`.`status` = 'Pending' THEN 'revoke-request'
+            WHEN `pseudo`.`recipient` = ? AND `pseudo`.`status` = 'Pending' THEN 'accept-request|revoke-request'
+        END AS `selection_classes`
         
     FROM (
         SELECT
@@ -46,7 +51,7 @@ $sql =
 
 // --------------------------------------------------
 
-$params = array_fill(0, 6, $_SESSION['id']);
+$params = array_fill(0, 8, $_SESSION['id']);
 $type = str_repeat('i', sizeof($params));
 $stmt = $mysqli->prepare($sql);
 $stmt->bind_param($type, ...$params);
@@ -60,20 +65,21 @@ if ($stmt->execute()):
     while ($row = $result->fetch_assoc()):
 
         $row['actions'] = explode("|", $row['actions']);
-        $row['actions_classes'] = explode("|", $row['actions_classes']);
+        $row['action_classes'] = explode("|", $row['action_classes']);
+        $row['selection_classes'] = explode("|", $row['selection_classes']);
 
-        $wClass = $row['status'] === "Accepted" || sizeof($row['actions_classes']) === 2 ? "w-25" : "w-50";
+        $wClass = $row['status'] === "Accepted" || sizeof($row['action_classes']) === 2 ? "w-25" : "w-50";
 
         $temp[] = [
             'picture' => "<img class=\"me-1\" src=\"assets/img/user.png\" alt=\"#\" height=\"40\">",
             'name' => "<span>{$row['name']}</span>",
             'status' => "<span class=\"me-1\">{$row['status']}</span><i class=\"{$row['status_classes']}\"></i>",
-            'actions' => "<button class=\"$wClass m-1 mybtn bg-white border border-2 border-primary-subtle\" data-bs-toggle=\"tooltip\" data-bs-title=\"{$row['actions'][0]}\"><i class=\"{$row['actions_classes'][0]}\"></i></button>",
+            'actions' => "<button class=\"$wClass m-1 mybtn bg-white border border-2 border-primary-subtle {$row['selection_classes'][0]}\" data-bs-toggle=\"tooltip\" data-bs-title=\"{$row['actions'][0]}\" data-id=\"{$row['correspondent']}\"><i class=\"{$row['action_classes'][0]}\"></i></button>",
             'timestamp' => (int)$row['timestamp']
         ];
 
-        $temp[$count]['actions'] .= $row['status'] === "Accepted" ? "<button class=\"$wClass m-1 mybtn bg-white border border-2 border-primary-subtle\" data-bs-toggle=\"tooltip\" data-bs-title=\"Send Message\"><i class=\"fa-solid fa-comment text-dark\"></i></button>" : (string)null;
-        $temp[$count]['actions'] .= sizeof($row['actions_classes']) === 2 ? "<button class=\"$wClass m-1 mybtn bg-white border border-2 border-primary-subtle\" data-bs-toggle=\"tooltip\" data-bs-title=\"{$row['actions'][1]}\"><i class=\"{$row['actions_classes'][1]}\"></i></button>" : (string)null;
+        $temp[$count]['actions'] .= $row['status'] === "Accepted" ? "<button class=\"$wClass m-1 mybtn bg-white border border-2 border-primary-subtle send-message\" data-bs-toggle=\"tooltip\" data-bs-title=\"Send Message\" data-id=\"{$row['correspondent']}\"><i class=\"fa-solid fa-comment text-dark\"></i></button>" : (string)null;
+        $temp[$count]['actions'] .= sizeof($row['action_classes']) === 2 ? "<button class=\"$wClass m-1 mybtn bg-white border border-2 border-primary-subtle {$row['selection_classes'][1]}\" data-bs-toggle=\"tooltip\" data-bs-title=\"{$row['actions'][1]}\" data-id=\"{$row['correspondent']}\"><i class=\"{$row['action_classes'][1]}\"></i></button>" : (string)null;
 
         $count++;
     endwhile;
@@ -113,7 +119,19 @@ mysqli_stmt_close($stmt);
                     <h1 class="modal-title">Add Friends</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+
                 <div class="modal-body pb-0 mb-2">
+                    <!-- Alerts -->
+                    <div class="alert alert-danger alert-dismissible d-none friend-request-danger" role="alert">
+                        <strong>Ooops!</strong>&nbsp;Something went wrong...
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <div class="alert alert-success alert-dismissible d-none friend-request-success" role="alert">
+                        <strong>Success!</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <!-- Alerts -->
+
                     <form class="mb-2" action="#" name="userSearch" id="userSearch">
                         <input name="searchBox" id="searchBox" class="w-100 form-control" type="text" placeholder="Search for friends...">
                     </form>
@@ -155,6 +173,7 @@ mysqli_stmt_close($stmt);
                             <th colspan="2">Name</th>
                             <th>Status</th>
                             <th>Actions</th>
+                            <th>Timestamp</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -166,6 +185,7 @@ mysqli_stmt_close($stmt);
                                 <td><?php echo $element['name']; ?></td>
                                 <td><?php echo $element['status']; ?></td>
                                 <td><?php echo $element['actions']; ?></td>
+                                <td><?php echo $element['timestamp']; ?></td>
                             </tr>
                         <?php
                         endforeach;

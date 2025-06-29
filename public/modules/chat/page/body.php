@@ -14,13 +14,12 @@ require("{$_SERVER['DOCUMENT_ROOT']}config/db_connect.php");
 // BEGIN - ADDITIONAL SECURITY CHECK ----------------
 
 $sql =
-    "SELECT 
-        COUNT(*) AS `count`
-    
-    FROM `chats`
+    "SELECT * FROM `chats`
     
     WHERE `chats`.`id` = ?
-    AND ? IN (`chats`.`sender`, `chats`.`recipient`)";
+    AND ? IN (`chats`.`sender`, `chats`.`recipient`)
+    
+    LIMIT 1";
 
 // --------------------------------------------------
 
@@ -36,32 +35,17 @@ $stmt->bind_param($types, ...$params);
 if ($stmt->execute()):
 
     $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
+    if (!$result->num_rows) die();
 
     $output = [
         'success' => 1,
         'message' => 'Success!',
-        'data' => $row
-    ];
-else:
-
-    $output = [
-        'success' => 0,
-        'message' => 'Ooops! Something went wrong...',
         'data' => null
     ];
-
-    die(header("{$_SERVER['SERVER_PROTOCOL']} 404 Not Found"));
+else: die();
 endif;
 
 mysqli_stmt_close($stmt);
-
-// --------------------------------------------------
-
-if (!(int)$output['data']['count']):
-
-    die(header("{$_SERVER['SERVER_PROTOCOL']} 404 Not Found"));
-endif;
 
 // END - ADDITIONAL SECURITY CHECK ------------------
 
@@ -121,13 +105,7 @@ if ($stmt->execute()):
     if ($output['data']['rowCount']):
         array_multisort(array_column($output['data']['messages'], 'id'), SORT_DESC, $output['data']['messages']);
     endif;
-else:
-
-    $output = [
-        'success' => 0,
-        'message' => 'Ooops! Something went wrong...',
-        'data' => null
-    ];
+else: die();
 endif;
 
 mysqli_stmt_close($stmt);
@@ -168,13 +146,7 @@ if ($stmt->execute()):
 
     $row = $result->fetch_assoc();
     $output['data']['correspondentFullname'] = $row['correspondent_fullname'];
-else:
-
-    $output = [
-        'success' => 0,
-        'message' => 'Ooops! Something went wrong...',
-        'data' => null
-    ];
+else: die();
 endif;
 
 mysqli_stmt_close($stmt);

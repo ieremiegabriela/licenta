@@ -26,7 +26,7 @@ switch (true):
     case (!isset($_POST['emailRegister'])):
     case (!isset($_POST['passwordRegister'])):
 
-        die(header("{$_SERVER['SERVER_PROTOCOL']} 404 Not Found"));
+        die(http_response_code(404));
 
         break;
 endswitch;
@@ -127,6 +127,8 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Important!
 curl_setopt($ch, CURLOPT_TIMEOUT, 10); // Give it enough time to respond
 curl_setopt($ch, CURLOPT_HEADER, false);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Only use in local/test environments
+curl_setopt($ch, CURLOPT_COOKIE, "PHPSESSID={$_COOKIE['PHPSESSID']}; path=/");
+session_write_close();
 
 curl_exec($ch);
 curl_close($ch);

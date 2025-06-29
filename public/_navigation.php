@@ -4,7 +4,7 @@
 
 if (!defined('_navigation.php')):
 
-    die(header("{$_SERVER['SERVER_PROTOCOL']} 404 Not Found"));
+    die(http_response_code(404));
 endif;
 
 // END - INITIAL SECURITY SCREEN --------------------

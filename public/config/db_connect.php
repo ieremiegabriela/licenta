@@ -8,7 +8,7 @@ switch (true):
     case (!isset($_ENV['DB_USERNAME'])):
     case (!isset($_ENV['DB_PASSWORD'])):
     case (!isset($_ENV['DB_NAME'])):
-        die(header("{$_SERVER['SERVER_PROTOCOL']} 404 Not Found"));
+        die(http_response_code(404));
 endswitch;
 
 // END - SECURITY SCREEN ----------------------------

@@ -10,14 +10,12 @@ require_once("{$_SERVER['DOCUMENT_ROOT']}helpers/php/helper_functions.php");
 switch (true):
     case (!isset($_SESSION['authenticated'])):
     case (isset($_SESSION['authenticated']) && !$_SESSION['authenticated']):
-
         die(header("Location: {$_SESSION['LOCATION_ORIGIN']}/login.php"));
         break;
-
     case ($_SERVER['REQUEST_METHOD'] !== "GET"):
+    case (!isset($_GET['id'])):
     case (!(int)$_GET['id']):
-
-        die(header("{$_SERVER['SERVER_PROTOCOL']} 404 Not Found"));
+        die(http_response_code(404));
         break;
 endswitch;
 
@@ -43,13 +41,12 @@ require("{$_SERVER['DOCUMENT_ROOT']}config/db_connect.php");
 // BEGIN - ADDITIONAL SECURITY CHECK ----------------
 
 $sql =
-    "SELECT 
-        COUNT(*) AS `count`
-    
-    FROM `chats`
+    "SELECT * FROM `chats`
     
     WHERE `chats`.`id` = ?
-    AND ? IN (`chats`.`sender`, `chats`.`recipient`)";
+    AND ? IN (`chats`.`sender`, `chats`.`recipient`)
+    
+    LIMIT 1";
 
 // --------------------------------------------------
 
@@ -65,32 +62,17 @@ $stmt->bind_param($types, ...$params);
 if ($stmt->execute()):
 
     $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
+    if (!$result->num_rows) die(http_response_code(404));
 
     $output = [
         'success' => 1,
         'message' => 'Success!',
-        'data' => $row
-    ];
-else:
-
-    $output = [
-        'success' => 0,
-        'message' => 'Ooops! Something went wrong...',
         'data' => null
     ];
-
-    die(header("{$_SERVER['SERVER_PROTOCOL']} 404 Not Found"));
+else: die(http_response_code(404));
 endif;
 
 mysqli_stmt_close($stmt);
-
-// --------------------------------------------------
-
-if (!$output['data']['count']):
-
-    die(header("{$_SERVER['SERVER_PROTOCOL']} 404 Not Found"));
-endif;
 
 // END - ADDITIONAL SECURITY CHECK ------------------
 

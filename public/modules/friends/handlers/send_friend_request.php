@@ -22,6 +22,7 @@ switch (true):
     case (!isset($_SESSION['authenticated'])):
     case (isset($_SESSION['authenticated']) && !$_SESSION['authenticated']):
     case ($_SERVER['REQUEST_METHOD'] !== "POST"):
+    case (!isset($_POST['userId'])):
         die(http_response_code(404));
         break;
 endswitch;
@@ -31,25 +32,11 @@ endswitch;
 
 // BEGIN - FILTER INPUT -----------------------------
 
-$input = (array)json_decode(file_get_contents("php://input"), true);
-$input = filter_var_array($input, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$input = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$input['user'] = (int)$_SESSION['id'];
+$input['userId'] = (int)$input['userId'];
 
 // END - FILTER INPUT -------------------------------
-
-
-// BEGIN - ADDITIONAL SECURITY SCREEN ---------------
-
-switch (true):
-    case (!isset($input['id'])):
-    case (!isset($input['message'])):
-        die(http_response_code(404));
-        break;
-endswitch;
-
-$input['sender'] = (int)$_SESSION['id'];
-$input['id'] = (int)$input['id'];
-
-// END - ADDITIONAL SECURITY SCREEN -----------------
 
 
 // BEGIN - REQUESTING INITIAL DEPENDENCIES ----------
@@ -63,67 +50,73 @@ require_once("{$_SERVER['DOCUMENT_ROOT']}config/db_connect.php");
 // END - REQUESTING INITIAL DEPENDENCIES ------------
 
 
-// BEGIN - IDENTIFY CORRESPONDENT -------------------
+// BEGIN - CHECK FRIEND REQUEST ELIGIBILITY ---------
 
 $sql =
     "SELECT
-        IF(`chats`.`sender` = ?, `chats`.`recipient`, `chats`.`sender`) AS `correspondent`
-
-    FROM `chats`
-    WHERE `chats`.`id` = ?
-    AND ? IN (`chats`.`sender`, `chats`.`recipient`)";
+        `users`.`id`
+    
+    FROM `users`
+    LEFT JOIN `friends` ON (`users`.`id` IN (`friends`.`sender`, `friends`.`recipient`) AND
+                            ? IN (`friends`.`sender`, `friends`.`recipient`) AND
+                            `friends`.`enabled` = 1)
+    
+    WHERE (`friends`.`sender` <=> NULL OR `friends`.`recipient` <=> NULL)
+    AND `users`.`enabled` = 1";
 
 // --------------------------------------------------
 
-$params = [
-    $input['sender'],
-    $input['id'],
-    $input['sender'],
+$output = [
+    'success' => 0,
+    'message' => 'Ooops! Something went wrong...',
+    'data' => null
 ];
+
+// --------------------------------------------------
+
 $stmt = $mysqli->prepare($sql);
-$stmt->bind_param("iii", ...$params);
+$stmt->bind_param("i", $input['user']);
 
 if ($stmt->execute()):
 
     $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
-    $input['recipient'] = $row['correspondent'];
+
+    $temp = [];
+    while ($row = $result->fetch_assoc()):
+        $temp[] = (int)$row['id'];
+    endwhile;
+
+    if (!in_array($input['userId'], $temp, true)) die(json_encode($output));
 
     $output = [
         'success' => 1,
         'message' => 'Success!',
-        'data' => $row
-    ];
-else:
-
-    $output = [
-        'success' => 0,
-        'message' => 'Ooops! Something went wrong...',
         'data' => null
     ];
+
+    unset($temp);
+else: die(json_encode($output));
 endif;
 
 mysqli_stmt_close($stmt);
 
-// END - IDENTIFY CORRESPONDENT ---------------------
+// END - CHECK FRIEND REQUEST ELIGIBILITY -----------
 
 
-// BEGIN - INSERT MESSAGE ---------------------------
+// BEGIN - RECORD FRIEND REQUEST --------------------
 
 $sql =
-    "INSERT INTO `chat_{$input['id']}`
+    "INSERT INTO `friends`
     (
-        `chat_{$input['id']}`.`sender`,
-        `chat_{$input['id']}`.`recipient`,
-        `chat_{$input['id']}`.`message`,
-        `chat_{$input['id']}`.`seen`,
-        `chat_{$input['id']}`.`added_on`,
-        `chat_{$input['id']}`.`enabled`
+        `friends`.`sender`,
+        `friends`.`recipient`,
+        `friends`.`accepted`,
+        `friends`.`added_on`,
+        `friends`.`enabled`
     )
     
     VALUES
     (
-        ?,
         ?,
         ?,
         0,
@@ -133,35 +126,36 @@ $sql =
 
 // --------------------------------------------------
 
-$params = [
-    $input['sender'],
-    $input['recipient'],
-    $input['message'],
+$output = [
+    'success' => 0,
+    'message' => 'Ooops! Something went wrong...',
+    'data' => null
 ];
+
+// --------------------------------------------------
+
+$params = [
+    $input['user'],
+    $input['userId']
+];
+$types = str_repeat("i", sizeof($params));
 $stmt = $mysqli->prepare($sql);
-$stmt->bind_param("iis", ...$params);
+$stmt->bind_param($types, ...$params);
 
 if ($stmt->execute()):
+    if (!(int)$stmt->affected_rows) die(json_encode($output));
 
     $output = [
         'success' => 1,
         'message' => 'Success!',
-        'data' => [
-            'insertedRows' => mysqli_affected_rows($mysqli)
-        ]
-    ];
-else:
-
-    $output = [
-        'success' => 0,
-        'message' => 'Ooops! Something went wrong...',
         'data' => null
     ];
+else: die(json_encode($output));
 endif;
 
 mysqli_stmt_close($stmt);
 
-// END - INSERT MESSAGE -----------------------------
+// END - RECORD FRIEND REQUEST ----------------------
 
 
 // BEGIN - REQUESTING FINAL DEPENDENCIES ------------
@@ -170,5 +164,6 @@ define('db_disconnect.php', true);
 require_once("{$_SERVER['DOCUMENT_ROOT']}config/db_disconnect.php");
 
 // END - REQUESTING FINAL DEPENDENCIES --------------
+
 
 die(json_encode($output));

@@ -5,7 +5,7 @@ session_start();
 switch (true):
     case ($_SERVER['REQUEST_METHOD'] !== "POST"):
 
-        die(header("{$_SERVER['SERVER_PROTOCOL']} 404 Not Found"));
+        die(http_response_code(404));
 endswitch;
 
 // --------------------------------------------------

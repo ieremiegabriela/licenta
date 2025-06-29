@@ -24,7 +24,7 @@ switch (true):
     case ($_SERVER['REQUEST_METHOD'] !== "POST"):
     case (!isset($_POST['searchedVal'])):
     case (!isset($_POST['limitOne'])):
-        die(header("{$_SERVER['SERVER_PROTOCOL']} 404 Not Found"));
+        die(http_response_code(404));
         break;
 endswitch;
 
@@ -92,7 +92,7 @@ if ($stmt->execute()):
                             <div class=\"d-flex justify-content-between px-0 align-items-center\">
                                 <div style=\"width: 70px;\"><img src=\"assets/img/user.png\" alt=\"#\" class=\"img-fluid\"></div>
                                 <h5 class=\"ms-2 me-auto mb-0\">{$row['user_fullname']}</h5>
-                                <button class=\"w-25 h-75 m-2 mybtn bg-white border border-2 border-primary-subtle\" data-bs-toggle=\"tooltip\" data-bs-title=\"Send Request\" data-id=\"{$row['id']}\"><i class=\"fa-solid fa-user-plus text-dark scale-plus-25\"></i></button>
+                                <button class=\"w-25 h-75 m-2 mybtn bg-white border border-2 border-primary-subtle add-friend-btn\" data-bs-toggle=\"tooltip\" data-bs-title=\"Send Request\" data-id=\"{$row['id']}\"><i class=\"fa-solid fa-user-plus text-dark scale-plus-25\"></i></button>
                             </div>
                         </div>
                     </div>
@@ -101,7 +101,7 @@ if ($stmt->execute()):
     endwhile;
 
     // No results
-    if ((int)$result->num_rows === 0):
+    if ($result->num_rows === 0):
         $temp[] =
             "<div class=\"card border-0 my-1\" data-id=\"1\">
                 <div class=\"card border-2 text-reset z-0 shadow-sm custom-border-radius\">

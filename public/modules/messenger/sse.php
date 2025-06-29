@@ -7,7 +7,7 @@ switch (true):
     case (!isset($_GET['authToken'])):
     case ($_GET['authToken'] !== $_SESSION['authToken']):
 
-        die(header("{$_SERVER['SERVER_PROTOCOL']} 404 Not Found"));
+        die(http_response_code(404));
 endswitch;
 
 // --------------------------------------------------
