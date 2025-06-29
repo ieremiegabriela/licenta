@@ -77,6 +77,7 @@ if ($stmt->execute()):
 
     $result = $stmt->get_result();
     $output['data']['rowCount'] = $result->num_rows;
+    $output['data']['messages'] = [];
 
     while ($row = $result->fetch_assoc()):
 
