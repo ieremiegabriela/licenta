@@ -10,7 +10,7 @@ function setIntervalImmediately($fn = null, $interval = 1000) {
 
 // --------------------------------------------------
 
-function unixToDateTime(unixFormat) {
+function unixToFormattedTime(unixFormat) {
 	// Create a new JavaScript Date object based on the timestamp
 	// multiplied by 1000 so that the argument is in milliseconds, not seconds
 	let date = new Date(unixFormat * 1000);
@@ -210,11 +210,13 @@ function setupEventListeners(sseURL, evtSource) {
 // --------------------------------------------------
 
 function visibilityChange(event) {
+	const modalShown = $(".modal.show").length > 0;
+
 	let evtSource = document.arguments.evtSource;
 	let sseURL = document.arguments.sseURL;
 	let input = document.arguments.input;
 
-	if (!document.hidden) {
+	if (!document.hidden && !modalShown) {
 		showLoadingGifOverlay();
 
 		setTimeout(() => {

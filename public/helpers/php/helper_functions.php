@@ -18,8 +18,10 @@ endif;
 
 // BEGIN - ADDITIONAL SESSION CONFIG ----------------
 
-$_SESSION['LOCATION_ORIGIN'] = getLocationOrigin();
 $_SESSION['DOCKER_ORIGIN'] = getDockerOrigin();
+if (getLocationOrigin() !== getDockerOrigin()):
+    $_SESSION['LOCATION_ORIGIN'] = getLocationOrigin();
+endif;
 
 // END - ADDITIONAL SESSION CONFIG ------------------
 

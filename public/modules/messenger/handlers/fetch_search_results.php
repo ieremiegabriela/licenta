@@ -54,17 +54,17 @@ require_once("{$_SERVER['DOCUMENT_ROOT']}config/db_connect.php");
 
 $sql = [];
 $sql[] =
-    "SELECT `users`.`id`,
+    "SELECT `pseudo`.`correspondent` AS `id`,
         CONCAT_WS(' ', `users`.`firstname`, `users`.`lastname`) AS `user_fullname`
-    FROM `users`
-    LEFT JOIN `friends` ON (`users`.`id` IN (`friends`.`sender`,
-                                            `friends`.`recipient`)
-                            AND ? IN (`friends`.`sender`,
-                                    `friends`.`recipient`)
-                            AND `friends`.`enabled` = 1)
-    WHERE (`friends`.`sender` <=> NULL
-        OR `friends`.`recipient` <=> NULL)
-        AND `users`.`enabled` = 1
+    FROM
+        (SELECT IF(`friends`.`sender` = ?, `friends`.`recipient`, `friends`.`sender`) AS `correspondent`
+        FROM `friends`
+        WHERE `friends`.`enabled` = 1
+            AND `friends`.`accepted` = 1
+            AND ? IN (`friends`.`sender`,
+                    `friends`.`recipient`)) AS `pseudo`
+    INNER JOIN `users` ON (`users`.`id` = `pseudo`.`correspondent`
+                        AND `users`.`enabled` = 1)
     HAVING `user_fullname` LIKE ?
     ORDER BY `user_fullname` ASC";
 
@@ -73,7 +73,7 @@ $sql = implode(chr(32), $sql);
 
 // --------------------------------------------------
 
-$params = array_fill(0, 1, $input['user']);
+$params = array_fill(0, 2, $input['user']);
 $types = str_repeat("i", sizeof($params));
 
 $params[] = "%{$input['searchedVal']}%";
@@ -96,7 +96,7 @@ if ($stmt->execute()):
                             <div class=\"d-flex justify-content-between px-0 align-items-center\">
                                 <div style=\"width: 70px;\"><img src=\"assets/img/user.png\" alt=\"#\" class=\"img-fluid\"></div>
                                 <h5 class=\"ms-2 me-auto mb-0\">{$row['user_fullname']}</h5>
-                                <button class=\"w-25 h-75 m-2 mybtn bg-white border border-2 border-primary-subtle add-friend-btn\" data-bs-toggle=\"tooltip\" data-bs-title=\"Send Request\" data-id=\"{$row['id']}\"><i class=\"fa-solid fa-user-plus text-dark scale-plus-25\"></i></button>
+                                <button class=\"w-25 h-75 m-2 mybtn bg-white border border-2 border-primary-subtle message-friend-btn\" data-bs-toggle=\"tooltip\" data-bs-title=\"Send Message\" data-id=\"{$row['id']}\"><i class=\"fa-solid fa-comment text-dark scale-plus-25\"></i></button>
                             </div>
                         </div>
                     </div>

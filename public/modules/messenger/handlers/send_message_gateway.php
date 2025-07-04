@@ -43,7 +43,7 @@ require("{$_SERVER['DOCUMENT_ROOT']}config/db_connect.php");
 
 $ch = curl_init();
 
-curl_setopt($ch, CURLOPT_URL, "{$_SESSION['DOCKER_ORIGIN']}/modules/messenger/handlers/authorize_action.php");
+curl_setopt($ch, CURLOPT_URL, "{$_SESSION['DOCKER_ORIGIN']}/modules/friends/handlers/authorize_action.php");
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, [
     'userId' => $input['userId'],

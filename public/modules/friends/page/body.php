@@ -133,7 +133,7 @@ mysqli_stmt_close($stmt);
                     <!-- Alerts -->
 
                     <form class="mb-2" action="#" name="userSearch" id="userSearch">
-                        <input name="searchBox" id="searchBox" class="w-100 form-control" type="text" placeholder="Search for friends...">
+                        <input name="searchBox" id="searchBox" class="w-100 form-control" type="text" placeholder="Search for users...">
                     </form>
 
                     <!-- Search Results -->

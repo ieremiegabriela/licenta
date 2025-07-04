@@ -71,7 +71,7 @@ mysqli_stmt_close($stmt);
 // BEGIN - RETRIEVE LAST MESSAGE & UNREAD COUNT -----
 
 $sql = [];
-
+$count = 0;
 foreach ($output['data'] as $element):
 
     $sql[] =
@@ -81,9 +81,10 @@ foreach ($output['data'] as $element):
             SELECT
                 `chat_{$element['id']}`.`message` AS `last_message`,
                 `chat_{$element['id']}`.`added_on`,
-                UNIX_TIMESTAMP(`chat_{$element['id']}`.`added_on`) AS `added_on_unix`,
+                UNIX_TIMESTAMP(`chat_{$element['id']}`.`added_on`) AS `timestamp`,
                 (SELECT COUNT(*) AS `count` FROM (SELECT * FROM `chat_{$element['id']}`) AS `alias_{$element['id']}`
-                WHERE `alias_{$element['id']}`.`seen` = 0) AS `unread_count`
+                WHERE `alias_{$element['id']}`.`seen` = 0
+                AND `chat_{$element['id']}`.`recipient` = ?) AS `unread_count`
                 
 
             FROM `chat_{$element['id']}`
@@ -98,13 +99,19 @@ foreach ($output['data'] as $element):
         WHERE NOT EXISTS (
             SELECT 1 FROM `chat_{$element['id']}` WHERE `enabled` = 1
         )";
+
+    $count++;
 endforeach;
 
 $sql = implode(" UNION ", $sql);
 
 // --------------------------------------------------
 
+$params = array_fill(0, $count, $_SESSION['id']);
+$types = str_repeat("i", sizeof($params));
+
 if (strlen($sql)) $stmt = $mysqli->prepare($sql);
+if (strlen($sql)) $stmt->bind_param($types, ...$params);
 
 if (strlen($sql) && $stmt->execute()):
 
@@ -122,7 +129,7 @@ if (strlen($sql) && $stmt->execute()):
             case false:
                 $output['data'][$count]['lastMessage'] = $row['last_message'];
                 $output['data'][$count]['addedOn'] = $row['added_on'];
-                $output['data'][$count]['addedOnUnix'] = $row['added_on_unix'];
+                $output['data'][$count]['timestamp'] = $row['timestamp'];
                 $output['data'][$count]['unreadCount'] = $row['unread_count'];
                 break;
         endswitch;
@@ -130,7 +137,7 @@ if (strlen($sql) && $stmt->execute()):
         $count++;
     endwhile;
 
-    array_multisort(array_column($output['data'], "addedOnUnix"), SORT_DESC, $output['data']);
+    array_multisort(array_column($output['data'], "timestamp"), SORT_DESC, $output['data']);
 
     $output = [
         'success' => 1,
@@ -161,6 +168,43 @@ endif;
         <img class="img-fluid" style="scale: 0.25;" src="assets/img/loading.gif" alt="#">
     </div>
 
+    <!-- Modal -->
+    <div id="messageFriendsModal" class="modal modal-lg" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title">Message Friends</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body pb-0 mb-2">
+                    <!-- Alerts -->
+                    <div class="alert alert-danger alert-dismissible d-none message-request-danger" role="alert">
+                        <strong>Ooops!</strong>&nbsp;Something went wrong...
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <div class="alert alert-success alert-dismissible d-none message-request-danger" role="alert">
+                        <strong>Success!</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <!-- Alerts -->
+
+                    <form class="mb-2" action="#" name="friendSearch" id="friendSearch">
+                        <input name="searchBox" id="searchBox" class="w-100 form-control" type="text" placeholder="Search for friends...">
+                    </form>
+
+                    <!-- Search Results -->
+                    <div class="search-results d-flex flex-column overflow-auto" style="max-height: calc(100vh - 20rem);"></div>
+                    <!-- Search Results -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button name="allResultsBtn" id="allResultsBtn" type="button" class="btn btn-primary disabled">Load All Results</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Navigation -->
     <?php
     if (!defined("_navigation.php")) define("_navigation.php", true);
@@ -174,7 +218,7 @@ endif;
             <div class="px-2 pt-3 d-flex flex-row justify-content-between">
                 <h1 class="fw-bold m-0 pb-1 text-dark">Chats</h1>
                 <h1 class="fw-bold m-0 pb-1 text-dark">
-                    <a href="#"><i class="fa-solid fa-comment-medical text-info"></i></a>
+                    <button class="clear-btn" data-bs-toggle="modal" data-bs-target="#messageFriendsModal"><i class="fa-solid fa-comment-medical text-info"></i></button>
                 </h1>
             </div>
 
@@ -200,7 +244,7 @@ endif;
                                         <div class="col px-0">
                                             <div class="d-flex justify-content-between my-1 ms-1">
                                                 <h5 class="me-auto mb-0"><?php echo $element['correspondentFullname']; ?></h5>
-                                                <span class="chat-timestamp text-muted extra-small ms-2 custom-border-radius h-100" data-unix-epoch="<?php echo $element['addedOnUnix']; ?>"></span>
+                                                <span class="chat-timestamp text-muted extra-small ms-2 custom-border-radius h-100" data-unix-epoch="<?php echo $element['timestamp']; ?>"></span>
                                             </div>
                                             <div class="d-flex justify-content-between align-items-center custom-border-radius p-2 ms-1 border <?php echo ((int)$element['unreadCount'] !== 0 ? 'bg-warning-subtle' : ''); ?>">
                                                 <span class="line-clamp me-auto lh-sm"><?php echo $element['lastMessage']; ?></span>
@@ -219,7 +263,7 @@ endif;
                 if (!sizeof($output['data'])):
                 ?>
                     <div class="message-container d-flex flex-column justify-content-center align-items-center mt-5 mb-1 ms-auto me-auto">
-                        <div class="empty-chat message bg-info-subtle p-2 custom-border-radius border fs-5">No chats here yet. Be the first to start a conversation!</div>
+                        <div class="conv-info message bg-info-subtle p-2 custom-border-radius border fs-5">No chats here yet. Be the first to start a conversation!</div>
                     </div>
                 <?php
                 endif;

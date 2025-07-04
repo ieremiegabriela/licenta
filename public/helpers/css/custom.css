@@ -87,11 +87,12 @@ form .error {
 	max-width: 70%;
 	cursor: pointer;
 }
-.empty-chat {
+.conv-info {
 	background-image: linear-gradient(to bottom right, #89cff077, #fcb04599);
 	color: white;
 	text-shadow: 1px 0 #ccc, -1px 0 #ccc, 0 1px #ccc, 0 -1px #ccc, 1px 1px #ccc, -1px -1px #ccc, 1px -1px #ccc,
 		-1px 1px #ccc;
+	text-align: justify;
 }
 
 .text-shadow {

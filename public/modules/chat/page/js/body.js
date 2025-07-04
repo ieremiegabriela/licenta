@@ -5,12 +5,21 @@ function DOMContentLoaded(event) {
 		document.querySelector("a#messages").classList.add("active");
 	}
 
-	document.querySelectorAll("div.message-container").forEach((element, index) => {
+	// Convert the unix epoch into actual date time format according to the timezone of the client
+	document.querySelectorAll("span.message-status").forEach((element, index) => {
+		element.innerHTML = `${unixToFormattedTime(
+			element.getAttribute("data-unix-epoch")
+		)}&nbsp;·&nbsp;${element.getAttribute("data-status")}`;
+	});
+
+	document.querySelectorAll("div.message-container:not(:has(.conv-info))").forEach((element, index) => {
 		element.onclick = messageContainerClick;
 	});
 
-	document.querySelector("#sendMessageForm").onsubmit = handleMessageSubmission;
-	document.querySelector("input").oninput = handleFieldInput;
+	if (document.querySelector("#sendMessageForm")) {
+		document.querySelector("#sendMessageForm").onsubmit = handleMessageSubmission;
+		document.querySelector("input").oninput = handleFieldInput;
+	}
 }
 
 function handleFieldInput(event) {

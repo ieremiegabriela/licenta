@@ -5,6 +5,9 @@ function DOMContentLoaded(event) {
 		document.querySelector("a#friends").classList.add("active");
 	}
 
+	document.removeEventListener("beforeUnload", beforeUnload);
+	document.addEventListener("beforeUnload", beforeUnload);
+
 	const table = $("#friendsTable")
 		.DataTable({
 			drawCallback: function () {
@@ -43,6 +46,12 @@ function DOMContentLoaded(event) {
 	sessionStorage.setItem("originalModalContent", document.querySelector("#addFriendsModal").innerHTML);
 	bindAddFriendsModalHandlers();
 	bindRowBtnHandlers();
+}
+
+function beforeUnload(event) {
+	if (document.querySelector("a#messages").classList.contains("active")) {
+		document.querySelector("a#messages").classList.remove("active");
+	}
 }
 
 function authorizeAction({ action = null, userId = null } = {}) {
