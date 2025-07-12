@@ -82,7 +82,7 @@ function handleMessageSubmission(event) {
 }
 
 async function sendMessage(data) {
-	const url = `${window.location.origin}/modules/chat/handlers/send_message.php`;
+	const url = `/modules/chat/handlers/send_message.php`;
 
 	try {
 		const response = await fetch(url, {

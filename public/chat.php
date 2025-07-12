@@ -91,7 +91,7 @@ mysqli_stmt_close($stmt);
 
     <title>Document</title>
 
-    <link rel="icon" type="image/x-icon" href="<?php echo "{$_SESSION['LOCATION_ORIGIN']}/assets/img/favicon.ico"; ?>">
+    <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
 
     <!-- -------------------------------------------------- -->
 
@@ -102,16 +102,16 @@ mysqli_stmt_close($stmt);
 
     <!-- -------------------------------------------------- -->
 
-    <link rel="stylesheet" href="<?php echo "{$_SESSION['LOCATION_ORIGIN']}/helpers/css/custom.css"; ?>">
+    <link rel="stylesheet" href="/helpers/css/custom.css">
 
     <script type="text/javascript">
         localStorage.setItem("authToken", "<?php echo $_SESSION['authToken'] ?>");
         const input = JSON.stringify(<?php echo json_encode($input); ?>);
         const id = <?php echo (int)$input['id']; ?>;
     </script>
-    <script type="text/javascript" src="<?php echo "{$_SESSION['LOCATION_ORIGIN']}/helpers/js/helper_functions.js"; ?>"></script>
-    <script type="text/javascript" src="<?php echo "{$_SESSION['LOCATION_ORIGIN']}/modules/chat/view.js"; ?>"></script>
-    <script type="text/javascript" src="<?php echo "{$_SESSION['LOCATION_ORIGIN']}/modules/chat/page/js/body.js"; ?>"></script>
+    <script type="text/javascript" src="/helpers/js/helper_functions.js"></script>
+    <script type="text/javascript" src="/modules/chat/view.js"></script>
+    <script type="text/javascript" src="/modules/chat/page/js/body.js"></script>
 </head>
 
 <?php

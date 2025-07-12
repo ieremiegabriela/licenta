@@ -33,7 +33,7 @@ require_once("{$_SERVER['DOCUMENT_ROOT']}config/config.php");
 
     <title>Document</title>
 
-    <link rel="icon" type="image/x-icon" href="<?php echo "{$_SESSION['LOCATION_ORIGIN']}/assets/img/favicon.ico"; ?>">
+    <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
 
     <!-- -------------------------------------------------- -->
 
@@ -44,16 +44,16 @@ require_once("{$_SERVER['DOCUMENT_ROOT']}config/config.php");
 
     <!-- -------------------------------------------------- -->
 
-    <link rel="stylesheet" href="<?php echo "{$_SESSION['LOCATION_ORIGIN']}/helpers/css/custom.css"; ?>">
+    <link rel="stylesheet" href="/helpers/css/custom.css">
 
-    <script type="text/javascript" src="<?php echo "{$_SESSION['LOCATION_ORIGIN']}/helpers/js/helper_functions.js"; ?>"></script>
-    <script type="text/javascript" src="<?php echo "{$_SESSION['LOCATION_ORIGIN']}/modules/login/login.js"; ?>"></script>
+    <script type="text/javascript" src="/helpers/js/helper_functions.js"></script>
+    <script type="text/javascript" src="/modules/login/login.js"></script>
 </head>
 
 <body class="h-100">
     <!-- Overlay DIV -->
     <div class="overlay fixed-top vw-100 vh-100 d-flex justify-content-center align-items-center">
-        <img class="img-fluid" style="scale: 0.25;" src="<?php echo "{$_SESSION['LOCATION_ORIGIN']}/assets/img/loading.gif"; ?>" alt="#">
+        <img class="img-fluid" style="scale: 0.25;" src="/assets/img/loading.gif" alt="#">
     </div>
 
     <div class="container h-100 pt-5">
@@ -78,7 +78,7 @@ require_once("{$_SERVER['DOCUMENT_ROOT']}config/config.php");
                         <div class="logo py-2">
                             <div class="col-md-12 text-center d-flex flex-row justify-content-between align-items-center">
                                 <h1 class="">Login</h1>
-                                <img class="logo img-fluid" src="<?php echo "{$_SESSION['LOCATION_ORIGIN']}/assets/img/logo.png"; ?>" alt="#">
+                                <img class="logo img-fluid" src="/assets/img/logo.png" alt="#">
                             </div>
                         </div>
 
@@ -116,7 +116,7 @@ require_once("{$_SERVER['DOCUMENT_ROOT']}config/config.php");
                         <div class="logo py-2">
                             <div class="col-md-12 text-center d-flex flex-row justify-content-between align-items-center">
                                 <h1 class="">Signup</h1>
-                                <img class="logo img-fluid" src="<?php echo "{$_SESSION['LOCATION_ORIGIN']}/assets/img/logo.png"; ?>" alt="#">
+                                <img class="logo img-fluid" src="/assets/img/logo.png" alt="#">
                             </div>
                         </div>
 

@@ -3,7 +3,7 @@ disableDocumentKeyboardInput();
 document.addEventListener("DOMContentLoaded", (event) => {
 	hideLoadingGifOverlay();
 
-	let sseURL = `${window.location.origin}/modules/chat/sse.php`;
+	let sseURL = `/modules/chat/sse.php`;
 	let evtSource = initializeSSE(sseURL, input);
 
 	document.arguments = window.arguments = { evtSource: evtSource, sseURL: sseURL, input: input };

@@ -272,7 +272,7 @@ function handleBeforeUnload(event) {
 }
 
 async function refreshAuthToken() {
-	const response = await fetch(`${window.location.origin}/helpers/php/handlers/auth_token_refresh.php`, {
+	const response = await fetch(`/helpers/php/handlers/auth_token_refresh.php`, {
 		method: "POST",
 	});
 	const data = await response.json();

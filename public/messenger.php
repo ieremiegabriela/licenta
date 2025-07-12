@@ -40,7 +40,7 @@ require_once("{$_SERVER['DOCUMENT_ROOT']}config/config.php");
 
     <title>Document</title>
 
-    <link rel="icon" type="image/x-icon" href="<?php echo "{$_SESSION['LOCATION_ORIGIN']}/assets/img/favicon.ico"; ?>">
+    <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
 
     <!-- -------------------------------------------------- -->
 
@@ -51,15 +51,15 @@ require_once("{$_SERVER['DOCUMENT_ROOT']}config/config.php");
 
     <!-- -------------------------------------------------- -->
 
-    <link rel="stylesheet" href="<?php echo "{$_SESSION['LOCATION_ORIGIN']}/helpers/css/custom.css"; ?>">
+    <link rel="stylesheet" href="/helpers/css/custom.css">
 
     <script type="text/javascript">
         localStorage.setItem("authToken", "<?php echo $_SESSION['authToken'] ?>");
         const input = null;
     </script>
-    <script type="text/javascript" src="<?php echo "{$_SESSION['LOCATION_ORIGIN']}/helpers/js/helper_functions.js"; ?>"></script>
-    <script type="text/javascript" src="<?php echo "{$_SESSION['LOCATION_ORIGIN']}/modules/messenger/view.js"; ?>"></script>
-    <script type="text/javascript" src="<?php echo "{$_SESSION['LOCATION_ORIGIN']}/modules/messenger/page/js/body.js"; ?>"></script>
+    <script type="text/javascript" src="/helpers/js/helper_functions.js"></script>
+    <script type="text/javascript" src="/modules/messenger/view.js"></script>
+    <script type="text/javascript" src="/modules/messenger/page/js/body.js"></script>
 </head>
 
 <?php

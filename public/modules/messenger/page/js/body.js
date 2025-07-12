@@ -41,7 +41,7 @@ function authorizeAction({ action = null, userId = null } = {}) {
 
 function handleSendMessage(event) {
 	const userId = event.currentTarget.getAttribute("data-id");
-	const url = `${window.location.origin}/modules/messenger/handlers/send_message_gateway.php?userId=${userId}`;
+	const url = `/modules/messenger/handlers/send_message_gateway.php?userId=${userId}`;
 	authorizeAction({ action: "send-message", userId: userId }).then((response) => {
 		let jsonObj = $.parseJSON(response);
 

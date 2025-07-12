@@ -236,7 +236,7 @@ endif;
                             </div>
                         </div>
 
-                        <a href="<?php echo "{$_SESSION['LOCATION_ORIGIN']}/chat.php?id={$element['id']}"; ?>" class="card border-2 text-reset mt-1 mb-1 z-0 shadow-sm custom-border-radius">
+                        <a href="/chat.php?id=<?php echo $element['id']; ?>" class="card border-2 text-reset mt-1 mb-1 z-0 shadow-sm custom-border-radius">
                             <div class="card-body py-1">
                                 <div class="row">
                                     <div class="d-flex justify-content-between px-0">
