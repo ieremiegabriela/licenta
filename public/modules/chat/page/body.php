@@ -269,7 +269,7 @@ mysqli_stmt_close($stmt);
                                 ?>
                                     <div class="message-container d-flex flex-column justify-content-start align-items-start mb-1 me-auto">
                                         <div class="message bg-warning-subtle p-2 custom-border-radius border"><?php echo $element['message']; ?></div>
-                                        <span class="message-status text-secondary small px-1 <?php echo ($output['data']['lastRecipientMessageId'] === $element['id'] ? "last-message" : "d-none") ?>" data-unix-epoch="<?php echo $element['timestamp']; ?>" data-status="<?php echo $element['status']; ?>"></span>
+                                        <span class="message-status text-secondary small px-1 <?php echo ($output['data']['lastRecipientMessageId'] === $element['id'] ? "last-message" : "d-none") ?>" data-unix-epoch="<?php echo $element['timestamp']; ?>"></span>
                                     </div>
                         <?php
                                     break;

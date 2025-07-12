@@ -7,9 +7,16 @@ function DOMContentLoaded(event) {
 
 	// Convert the unix epoch into actual date time format according to the timezone of the client
 	document.querySelectorAll("span.message-status").forEach((element, index) => {
-		element.innerHTML = `${unixToFormattedTime(
-			element.getAttribute("data-unix-epoch")
-		)}&nbsp;·&nbsp;${element.getAttribute("data-status")}`;
+		switch (element.getAttribute("data-status") !== null) {
+			case true:
+				element.innerHTML = `${unixToFormattedTime(
+					element.getAttribute("data-unix-epoch")
+				)}&nbsp;·&nbsp;${element.getAttribute("data-status")}`;
+				break;
+			case false:
+				element.innerHTML = unixToFormattedTime(element.getAttribute("data-unix-epoch"));
+				break;
+		}
 	});
 
 	document.querySelectorAll("div.message-container:not(:has(.conv-info))").forEach((element, index) => {

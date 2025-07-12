@@ -58,12 +58,12 @@ require_once("{$_SERVER['DOCUMENT_ROOT']}/config/config.php");
 		const input = null;
 	</script>
 	<script type="text/javascript" src="/helpers/js/helper_functions.js"></script>
-	<script type="text/javascript" src="/modules/messenger/view.js"></script>
-	<script type="text/javascript" src="/modules/messenger/page/js/body.js"></script>
+	<script type="text/javascript" src="/modules/index/view.js"></script>
+	<script type="text/javascript" src="/modules/index/page/js/body.js"></script>
 </head>
 
 <?php
-require_once("{$_SERVER['DOCUMENT_ROOT']}/modules/messenger/page/body.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}/modules/index/page/body.php");
 ?>
 
 </html>
