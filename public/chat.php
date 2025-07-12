@@ -5,12 +5,12 @@
 session_start();
 
 define("helper_functions.php", true);
-require_once("{$_SERVER['DOCUMENT_ROOT']}helpers/php/helper_functions.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}/helpers/php/helper_functions.php");
 
 switch (true):
     case (!isset($_SESSION['authenticated'])):
     case (isset($_SESSION['authenticated']) && !$_SESSION['authenticated']):
-        die(header("Location: {$_SESSION['LOCATION_ORIGIN']}/login.php"));
+        die(header("Location: /login.php"));
         break;
     case ($_SERVER['REQUEST_METHOD'] !== "GET"):
     case (!isset($_GET['id'])):
@@ -27,13 +27,13 @@ $input = filter_input_array(INPUT_GET, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 // BEGIN - INITIAL CONFIG & DEPENDENCIES ------------
 
 define("config.php", true);
-require_once("{$_SERVER['DOCUMENT_ROOT']}config/config.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}/config/config.php");
 
 define('load_env.php', true);
-require("{$_SERVER['DOCUMENT_ROOT']}config/load_env.php");
+require("{$_SERVER['DOCUMENT_ROOT']}/config/load_env.php");
 
 define('db_connect.php', true);
-require("{$_SERVER['DOCUMENT_ROOT']}config/db_connect.php");
+require("{$_SERVER['DOCUMENT_ROOT']}/config/db_connect.php");
 
 // END - INITIAL CONFIG & DEPENDENCIES --------------
 
@@ -97,7 +97,7 @@ mysqli_stmt_close($stmt);
 
     <?php
     define("_libs.php", true);
-    require_once("{$_SERVER['DOCUMENT_ROOT']}_libs.php");
+    require_once("{$_SERVER['DOCUMENT_ROOT']}/_libs.php");
     ?>
 
     <!-- -------------------------------------------------- -->
@@ -115,7 +115,7 @@ mysqli_stmt_close($stmt);
 </head>
 
 <?php
-require_once("{$_SERVER['DOCUMENT_ROOT']}modules/chat/page/body.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}/modules/chat/page/body.php");
 ?>
 
 </html>

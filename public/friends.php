@@ -5,12 +5,12 @@
 session_start();
 
 define("helper_functions.php", true);
-require_once("{$_SERVER['DOCUMENT_ROOT']}helpers/php/helper_functions.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}/helpers/php/helper_functions.php");
 
 switch (true):
     case (!isset($_SESSION['authenticated'])):
     case (isset($_SESSION['authenticated']) && !$_SESSION['authenticated']):
-        die(header("Location: {$_SESSION['LOCATION_ORIGIN']}/login.php"));
+        die(header("Location: /login.php"));
         break;
 
     case ($_SERVER['REQUEST_METHOD'] !== "GET"):
@@ -24,13 +24,13 @@ endswitch;
 // BEGIN - INITIAL CONFIG & DEPENDENCIES ------------
 
 define("config.php", true);
-require_once("{$_SERVER['DOCUMENT_ROOT']}config/config.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}/config/config.php");
 
 define('load_env.php', true);
-require("{$_SERVER['DOCUMENT_ROOT']}config/load_env.php");
+require("{$_SERVER['DOCUMENT_ROOT']}/config/load_env.php");
 
 define('db_connect.php', true);
-require("{$_SERVER['DOCUMENT_ROOT']}config/db_connect.php");
+require("{$_SERVER['DOCUMENT_ROOT']}/config/db_connect.php");
 
 // END - INITIAL CONFIG & DEPENDENCIES --------------
 
@@ -55,7 +55,7 @@ require("{$_SERVER['DOCUMENT_ROOT']}config/db_connect.php");
 
     <?php
     define("_libs.php", true);
-    require_once("{$_SERVER['DOCUMENT_ROOT']}_libs.php");
+    require_once("{$_SERVER['DOCUMENT_ROOT']}/_libs.php");
     ?>
 
     <!-- -------------------------------------------------- -->
@@ -72,7 +72,7 @@ require("{$_SERVER['DOCUMENT_ROOT']}config/db_connect.php");
 </head>
 
 <?php
-require_once("{$_SERVER['DOCUMENT_ROOT']}modules/friends/page/body.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}/modules/friends/page/body.php");
 ?>
 
 </html>

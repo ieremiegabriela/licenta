@@ -15,7 +15,7 @@ mb_internal_encoding("UTF-8");
 date_default_timezone_set("UTC");
 
 define("helper_functions.php", true);
-require_once("{$_SERVER['DOCUMENT_ROOT']}helpers/php/helper_functions.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}/helpers/php/helper_functions.php");
 
 // END - INITIAL CONFIG -----------------------------
 

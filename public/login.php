@@ -5,11 +5,11 @@
 session_start();
 
 define("helper_functions.php", true);
-require_once("{$_SERVER['DOCUMENT_ROOT']}helpers/php/helper_functions.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}/helpers/php/helper_functions.php");
 
 if (isset($_SESSION['authenticated']) && $_SESSION['authenticated']):
 
-    die(header("Location: {$_SESSION['LOCATION_ORIGIN']}/index.php"));
+    die(header("Location: /index.php"));
 endif;
 
 // END - SESSION CHECK ------------------------------
@@ -18,7 +18,7 @@ endif;
 // BEGIN - INITIAL CONFIG ---------------------------
 
 define("config.php", true);
-require_once("{$_SERVER['DOCUMENT_ROOT']}config/config.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}/config/config.php");
 
 // END - INITIAL CONFIG -----------------------------
 
@@ -39,7 +39,7 @@ require_once("{$_SERVER['DOCUMENT_ROOT']}config/config.php");
 
     <?php
     define("_libs.php", true);
-    require_once("{$_SERVER['DOCUMENT_ROOT']}_libs.php");
+    require_once("{$_SERVER['DOCUMENT_ROOT']}/_libs.php");
     ?>
 
     <!-- -------------------------------------------------- -->

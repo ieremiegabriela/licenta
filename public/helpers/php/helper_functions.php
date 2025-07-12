@@ -4,7 +4,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-require("{$_SERVER['DOCUMENT_ROOT']}vendor/autoload.php");
+require("{$_SERVER['DOCUMENT_ROOT']}/vendor/autoload.php");
 
 // BEGIN - INITIAL SECURITY SCREEN ------------------
 

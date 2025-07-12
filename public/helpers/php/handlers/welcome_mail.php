@@ -21,7 +21,7 @@ mb_internal_encoding("UTF-8");
 date_default_timezone_set("UTC");
 
 define("helper_functions.php", true);
-require_once("{$_SERVER['DOCUMENT_ROOT']}helpers/php/helper_functions.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}/helpers/php/helper_functions.php");
 
 // --------------------------------------------------
 
@@ -29,10 +29,10 @@ require_once("{$_SERVER['DOCUMENT_ROOT']}helpers/php/helper_functions.php");
 // BEGIN - REQUESTING INITIAL DEPENDENCIES ----------
 
 define('load_env.php', true);
-require_once("{$_SERVER['DOCUMENT_ROOT']}config/load_env.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}/config/load_env.php");
 
 define('db_connect.php', true);
-require_once("{$_SERVER['DOCUMENT_ROOT']}config/db_connect.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}/config/db_connect.php");
 
 // END - REQUESTING INITIAL DEPENDENCIES ------------
 
@@ -85,7 +85,7 @@ mysqli_stmt_close($stmt);
 $input = [
     'mailTo' => $input['mailTo'],
     'emailSubject' => "Welcome to Marked as Safe",
-    'htmlBodyPath' => "{$_SERVER['DOCUMENT_ROOT']}helpers/html/welcome_mail.html",
+    'htmlBodyPath' => "{$_SERVER['DOCUMENT_ROOT']}/helpers/html/welcome_mail.html",
     'replacements' => [
         "[FULL_NAME]" => $output['data']['fullName'],
         "[LOCATION_ORIGIN]" => $input['locationOrigin'],

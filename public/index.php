@@ -5,13 +5,13 @@
 session_start();
 
 define("helper_functions.php", true);
-require_once("{$_SERVER['DOCUMENT_ROOT']}helpers/php/helper_functions.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}/helpers/php/helper_functions.php");
 
 switch (true):
 	case (!isset($_SESSION['authenticated'])):
 	case (isset($_SESSION['authenticated']) && !$_SESSION['authenticated']):
 
-		die(header("Location: {$_SESSION['LOCATION_ORIGIN']}/login.php"));
+		die(header("Location: /login.php"));
 		break;
 endswitch;
 
@@ -21,14 +21,14 @@ endswitch;
 // BEGIN - INITIAL CONFIG ---------------------------
 
 define("config.php", true);
-require_once("{$_SERVER['DOCUMENT_ROOT']}config/config.php");
+require_once("{$_SERVER['DOCUMENT_ROOT']}/config/config.php");
 
 // END - INITIAL CONFIG -----------------------------
 
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html class="h-100" lang="en">
 
 <head>
 	<meta name="theme-color" content="#ea931a">
@@ -46,36 +46,24 @@ require_once("{$_SERVER['DOCUMENT_ROOT']}config/config.php");
 
 	<?php
 	define("_libs.php", true);
-	require_once("{$_SERVER['DOCUMENT_ROOT']}_libs.php");
+	require_once("{$_SERVER['DOCUMENT_ROOT']}/_libs.php");
 	?>
 
 	<!-- -------------------------------------------------- -->
 
 	<link rel="stylesheet" href="/helpers/css/custom.css">
 
+	<script type="text/javascript">
+		localStorage.setItem("authToken", "<?php echo $_SESSION['authToken'] ?>");
+		const input = null;
+	</script>
 	<script type="text/javascript" src="/helpers/js/helper_functions.js"></script>
-	<script type="text/javascript" src="/modules/index/index.js"></script>
-	<style>
-		html,
-		body {
-			margin: 0;
-			padding: 0;
-			height: 100%;
-		}
-	</style>
+	<script type="text/javascript" src="/modules/messenger/view.js"></script>
+	<script type="text/javascript" src="/modules/messenger/page/js/body.js"></script>
 </head>
 
-<body class="pt-5">
-	<!-- Navigation -->
-	<?php
-	define("_navigation.php", true);
-	require_once("{$_SERVER['DOCUMENT_ROOT']}_navigation.php");
-	?>
-
-	<!-- Page Content -->
-	<div class="container"></div>
-
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
-</body>
+<?php
+require_once("{$_SERVER['DOCUMENT_ROOT']}/modules/messenger/page/body.php");
+?>
 
 </html>
