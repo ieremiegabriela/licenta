@@ -219,7 +219,7 @@ mysqli_stmt_close($stmt);
 <body class="h-100 pt-5">
     <!-- Overlay DIV -->
     <div class="overlay fixed-top vw-100 vh-100 d-flex justify-content-center align-items-center">
-        <img class="img-fluid" style="scale: 0.25;" src="assets/img/loading.gif" alt="#" />
+        <img class="img-fluid" style="scale: 0.25;" src="/assets/img/loading.gif" alt="#" />
     </div>
 
     <!-- Navigation -->
@@ -230,7 +230,7 @@ mysqli_stmt_close($stmt);
 
     <!-- Page Content -->
     <div class="container d-flex mt-3 px-2" style="height: calc(100% - 1.6rem);">
-        <div class="position-relative container d-flex flex-column col-lg-10 p-0 bg-light border border-2 border-primary-subtle shadow custom-border-radius h-100">
+        <div class="position-relative container d-flex flex-column col-lg-10 p-0 py-1 bg-light border border-2 border-primary-subtle shadow custom-border-radius h-100">
             <!-- Title -->
             <div class="pt-2 px-2 d-flex flex-row w-100">
                 <h1 class="fw-bold m-0 pb-1 text-dark border-bottom border-2 w-100">

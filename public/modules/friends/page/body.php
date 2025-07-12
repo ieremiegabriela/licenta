@@ -108,7 +108,7 @@ mysqli_stmt_close($stmt);
 <body class="h-100 pt-5">
     <!-- Overlay DIV -->
     <div class="overlay fixed-top vw-100 vh-100 d-flex justify-content-center align-items-center">
-        <img class="img-fluid" style="scale: 0.25;" src="assets/img/loading.gif" alt="#">
+        <img class="img-fluid" style="scale: 0.25;" src="/assets/img/loading.gif" alt="#">
     </div>
 
     <!-- Modal -->
@@ -166,7 +166,7 @@ mysqli_stmt_close($stmt);
             </div>
 
             <!-- Friends -->
-            <div class="card-list overflow-auto custom-border-radius p-1" style="height: calc(100% - 4.9rem);">
+            <div class="card-list overflow-auto custom-border-radius p-1" style="height: calc(100% - 3.7rem);">
                 <table id="friendsTable" class="display">
                     <thead>
                         <tr>

@@ -165,7 +165,7 @@ endif;
 <body class="h-100 pt-5">
     <!-- Overlay DIV -->
     <div class="overlay fixed-top vw-100 vh-100 d-flex justify-content-center align-items-center">
-        <img class="img-fluid" style="scale: 0.25;" src="assets/img/loading.gif" alt="#">
+        <img class="img-fluid" style="scale: 0.25;" src="/assets/img/loading.gif" alt="#">
     </div>
 
     <!-- Modal -->
@@ -223,7 +223,7 @@ endif;
             </div>
 
             <!-- Chats -->
-            <div class="card-list overflow-auto custom-border-radius p-1" style="height: calc(100% - 4.9rem);">
+            <div class="card-list overflow-auto custom-border-radius p-1" style="height: calc(100% - 3.7rem);">
                 <?php
                 // BEGIN - BUILD THE HTML CHAT CARDS ----------------
 
@@ -240,7 +240,7 @@ endif;
                             <div class="card-body py-1">
                                 <div class="row">
                                     <div class="d-flex justify-content-between px-0">
-                                        <div style="width: 70px;"><img src="assets/img/message.png" alt="#" class="img-fluid"></div>
+                                        <div style="width: 70px;"><img src="/assets/img/message.png" alt="#" class="img-fluid"></div>
                                         <div class="col px-0">
                                             <div class="d-flex justify-content-between my-1 ms-1">
                                                 <h5 class="me-auto mb-0"><?php echo $element['correspondentFullname']; ?></h5>
