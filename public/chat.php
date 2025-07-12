@@ -102,7 +102,7 @@ mysqli_stmt_close($stmt);
 
     <!-- -------------------------------------------------- -->
 
-    <link rel="stylesheet" href="/helpers/css/custom.css">
+
 
     <script type="text/javascript">
         localStorage.setItem("authToken", "<?php echo $_SESSION['authToken'] ?>");

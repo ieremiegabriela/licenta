@@ -60,7 +60,7 @@ require("{$_SERVER['DOCUMENT_ROOT']}/config/db_connect.php");
 
     <!-- -------------------------------------------------- -->
 
-    <link rel="stylesheet" href="/helpers/css/custom.css">
+
 
     <script type="text/javascript">
         localStorage.setItem("authToken", "<?php echo $_SESSION['authToken'] ?>");

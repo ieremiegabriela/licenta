@@ -51,8 +51,6 @@ require_once("{$_SERVER['DOCUMENT_ROOT']}/config/config.php");
 
 	<!-- -------------------------------------------------- -->
 
-	<link rel="stylesheet" href="/helpers/css/custom.css">
-
 	<script type="text/javascript">
 		localStorage.setItem("authToken", "<?php echo $_SESSION['authToken'] ?>");
 		const input = null;

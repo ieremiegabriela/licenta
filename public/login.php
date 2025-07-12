@@ -44,7 +44,7 @@ require_once("{$_SERVER['DOCUMENT_ROOT']}/config/config.php");
 
     <!-- -------------------------------------------------- -->
 
-    <link rel="stylesheet" href="/helpers/css/custom.css">
+
 
     <script type="text/javascript" src="/helpers/js/helper_functions.js"></script>
     <script type="text/javascript" src="/modules/login/login.js"></script>
@@ -82,7 +82,7 @@ require_once("{$_SERVER['DOCUMENT_ROOT']}/config/config.php");
                             </div>
                         </div>
 
-                        <form class="pt-2" action="modules/login/handlers/login_form_action.php" method="post" name="login">
+                        <form class="pt-2" action="/modules/login/handlers/login_form_action.php" method="post" name="login">
                             <div class="form-group mb-3">
                                 <label for="emailLogin">Email address</label>
                                 <input type="email" name="emailLogin" class="form-control" id="emailLogin" aria-describedby="emailHelp" placeholder="Enter email">
@@ -120,7 +120,7 @@ require_once("{$_SERVER['DOCUMENT_ROOT']}/config/config.php");
                             </div>
                         </div>
 
-                        <form class="pt-2" action="modules/login/handlers/register_form_action.php" method="post" name="registration">
+                        <form class="pt-2" action="/modules/login/handlers/register_form_action.php" method="post" name="registration">
                             <div class="form-group mb-3">
                                 <label for="firstnameRegister">First Name</label>
                                 <input type="text" name="firstnameRegister" class="form-control" id="firstnameRegister" aria-describedby="emailHelp" placeholder="Enter Firstname">
