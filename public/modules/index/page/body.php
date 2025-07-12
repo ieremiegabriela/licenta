@@ -31,16 +31,14 @@ require("{$_SERVER['DOCUMENT_ROOT']}/config/db_connect.php");
             <div class="card-list overflow-auto custom-border-radius p-1 h-100 d-flex justify-content-center">
                 <div class="row w-100">
                     <!-- Main Control Column -->
-                    <div class="col-md-6 mb-4">
+                    <div class="col-md-6 mb-2">
                         <!-- Main Action Buttons -->
                         <div class="d-grid gap-3">
                             <button class="btn btn-safe py-2 custom-border-radius">
-                                <i class="bi bi-shield-check"></i> I'm Safe
-                                <small class="d-block mt-1">Mark yourself as safe and well</small>
+                                <i class="fa-solid fa-shield-halved"></i> I'm Safe
                             </button>
                             <button class="btn btn-unsafe py-2 custom-border-radius">
-                                <i class="bi bi-exclamation-triangle"></i> Need Help
-                                <small class="d-block mt-1">Alert others if you're in danger</small>
+                                <i class="fa-solid fa-triangle-exclamation"></i> Need Help
                             </button>
                             <!-- Stat Card 2 -->
                             <div class="status-card card border-warning border-top-0 border-end-0 border-bottom-0 border-4">

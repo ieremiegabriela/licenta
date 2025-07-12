@@ -169,11 +169,13 @@ button.clear-btn {
 .btn-safe {
 	background-color: #28a745;
 	color: white;
+	height: calc(13vh - 2.3rem) !important;
 }
 
 .btn-unsafe {
 	background-color: #dc3545;
 	color: white;
+	height: calc(13vh - 2.3rem) !important;
 }
 
 .btn-safe:hover {
