@@ -29,6 +29,37 @@ function unixToFormattedTime(unixFormat) {
 
 // --------------------------------------------------
 
+function unixToFormattedDateTime(timestamp) {
+	const date = new Date(timestamp * 1000); // Convert to milliseconds
+
+	const weekday = date.toLocaleString("en-US", { weekday: "long" });
+	const day = date.getDate();
+	const month = date.toLocaleString("en-US", { month: "long" });
+	const year = date.getFullYear();
+	const hour = date.getHours().toString().padStart(2, "0");
+	const minute = date.getMinutes().toString().padStart(2, "0");
+
+	const suffix = getDaySuffix(day);
+
+	return `${weekday}, ${day}${suffix} ${month}, ${year} · ${hour}:${minute}`;
+}
+
+function getDaySuffix(day) {
+	if (day >= 11 && day <= 13) return "th";
+	switch (day % 10) {
+		case 1:
+			return "st";
+		case 2:
+			return "nd";
+		case 3:
+			return "rd";
+		default:
+			return "th";
+	}
+}
+
+// --------------------------------------------------
+
 function docKeyInputPreventDefault(event) {
 	event.preventDefault();
 }
@@ -233,12 +264,12 @@ function visibilityChange(event) {
 }
 
 function handlePing(event) {
-	let jsonObj = JSON.parse(event.data);
+	const jsonObj = JSON.parse(event.data);
 	if (!jsonObj.authenticated) window.location.reload(true);
 }
 
 function handleUpdate(event) {
-	let jsonObj = JSON.parse(event.data);
+	const jsonObj = JSON.parse(event.data);
 	if (jsonObj.success) {
 		diff(createVirtualDOM(jsonObj.data), document.body, () => {
 			hideLoadingGifOverlay();

@@ -223,7 +223,7 @@ endif;
             </div>
 
             <!-- Chats -->
-            <div class="card-list overflow-auto custom-border-radius p-1" style="height: calc(100% - 3.7rem);">
+            <div class="card-list overflow-auto custom-border-radius p-1" style="height: calc(100% - 3.9rem);">
                 <?php
                 // BEGIN - BUILD THE HTML CHAT CARDS ----------------
 

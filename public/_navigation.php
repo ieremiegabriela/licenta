@@ -26,7 +26,7 @@ endif;
                     <a id="home" class="nav-link" aria-current="page" href="/index.php"><i class="fa-solid fa-house"></i>&nbsp;Home</a>
                 </li>
                 <li class="nav-item">
-                    <a id="feed" class="nav-link" aria-current="page" href="#"><i class="fa-solid fa-rss"></i>&nbsp;Feed</a>
+                    <a id="feed" class="nav-link" aria-current="page" href="/feed.php"><i class="fa-solid fa-rss"></i>&nbsp;Feed</a>
                 </li>
                 <li class="nav-item">
                     <a id="friends" class="nav-link" aria-current="page" href="/friends.php"><i class="fa-solid fa-user-group"></i>&nbsp;Friends</a>

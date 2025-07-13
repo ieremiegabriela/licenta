@@ -166,7 +166,7 @@ mysqli_stmt_close($stmt);
             </div>
 
             <!-- Friends -->
-            <div class="card-list overflow-auto custom-border-radius p-1" style="height: calc(100% - 3.7rem);">
+            <div class="card-list overflow-auto custom-border-radius p-1" style="height: calc(100% - 3.9rem);">
                 <table id="friendsTable" class="display">
                     <thead>
                         <tr>

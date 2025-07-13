@@ -43,7 +43,7 @@ function handleSendMessage(event) {
 	const userId = event.currentTarget.getAttribute("data-id");
 	const url = `/modules/messenger/handlers/send_message_gateway.php?userId=${userId}`;
 	authorizeAction({ action: "send-message", userId: userId }).then((response) => {
-		let jsonObj = $.parseJSON(response);
+		const jsonObj = $.parseJSON(response);
 
 		switch (jsonObj.success) {
 			default:
@@ -109,7 +109,7 @@ function handleUserSearchInput(event) {
 
 function handleResultsIntegration(response, { value }) {
 	const div = document.querySelector("div.search-results");
-	let jsonObj = $.parseJSON(response);
+	const jsonObj = $.parseJSON(response);
 
 	if (jsonObj.success === 0) {
 		alert(jsonObj.message);

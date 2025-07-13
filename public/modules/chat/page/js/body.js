@@ -27,6 +27,12 @@ function DOMContentLoaded(event) {
 		document.querySelector("#sendMessageForm").onsubmit = handleMessageSubmission;
 		document.querySelector("input").oninput = handleFieldInput;
 	}
+
+	const referrer = document.referrer.replace(window.location.origin, String(""));
+	const allowedReferrers = ["/friends.php", "/feed.php", "/messenger.php"];
+	const anchorBack = document.querySelector("a#anchorBack");
+	Object.freeze(allowedReferrers);
+	if (anchorBack && allowedReferrers.includes(referrer)) anchorBack.setAttribute("href", referrer);
 }
 
 function handleFieldInput(event) {
@@ -82,7 +88,6 @@ function handleMessageSubmission(event) {
 			evtSource.close();
 			document.arguments.evtSource = initializeSSE(sseURL, input, newToken);
 			inputField.value = String();
-
 			enableDocumentKeyboardInput();
 		});
 	});

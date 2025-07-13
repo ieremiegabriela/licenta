@@ -49,8 +49,8 @@ function DOMContentLoaded(event) {
 }
 
 function beforeUnload(event) {
-	if (document.querySelector("a#messages").classList.contains("active")) {
-		document.querySelector("a#messages").classList.remove("active");
+	if (document.querySelector("a#friends").classList.contains("active")) {
+		document.querySelector("a#friends").classList.remove("active");
 	}
 }
 
@@ -81,12 +81,12 @@ function revokeFriendRequest({ userId = null } = {}) {
 		},
 		type: "POST",
 		success: () => {
-			hideLoadingGifOverlay();
 			let evtSource = document.arguments.evtSource;
 			let sseURL = document.arguments.sseURL;
 			refreshAuthToken().then((newToken) => {
 				evtSource.close();
 				document.arguments.evtSource = initializeSSE(sseURL, input, newToken);
+				hideLoadingGifOverlay();
 			});
 		},
 	});
@@ -104,12 +104,12 @@ function removeFriendRequest({ userId = null } = {}) {
 		},
 		type: "POST",
 		success: () => {
-			hideLoadingGifOverlay();
 			let evtSource = document.arguments.evtSource;
 			let sseURL = document.arguments.sseURL;
 			refreshAuthToken().then((newToken) => {
 				evtSource.close();
 				document.arguments.evtSource = initializeSSE(sseURL, input, newToken);
+				hideLoadingGifOverlay();
 			});
 		},
 	});
@@ -127,12 +127,12 @@ function acceptFriendRequest({ userId = null } = {}) {
 		},
 		type: "POST",
 		success: () => {
-			hideLoadingGifOverlay();
 			let evtSource = document.arguments.evtSource;
 			let sseURL = document.arguments.sseURL;
 			refreshAuthToken().then((newToken) => {
 				evtSource.close();
 				document.arguments.evtSource = initializeSSE(sseURL, input, newToken);
+				hideLoadingGifOverlay();
 			});
 		},
 	});
@@ -143,7 +143,7 @@ function acceptFriendRequest({ userId = null } = {}) {
 function handleRevokeRequest(event) {
 	const userId = event.currentTarget.getAttribute("data-id");
 	authorizeAction({ action: "revoke-request", userId: userId }).then((response) => {
-		let jsonObj = $.parseJSON(response);
+		const jsonObj = $.parseJSON(response);
 
 		switch (jsonObj.success) {
 			default:
@@ -160,7 +160,7 @@ function handleRevokeRequest(event) {
 function handleRemoveFriend(event) {
 	const userId = event.currentTarget.getAttribute("data-id");
 	authorizeAction({ action: "remove-friend", userId: userId }).then((response) => {
-		let jsonObj = $.parseJSON(response);
+		const jsonObj = $.parseJSON(response);
 
 		switch (jsonObj.success) {
 			default:
@@ -177,7 +177,7 @@ function handleRemoveFriend(event) {
 function handleAcceptRequest(event) {
 	const userId = event.currentTarget.getAttribute("data-id");
 	authorizeAction({ action: "accept-request", userId: userId }).then((response) => {
-		let jsonObj = $.parseJSON(response);
+		const jsonObj = $.parseJSON(response);
 
 		switch (jsonObj.success) {
 			default:
@@ -195,7 +195,7 @@ function handleSendMessage(event) {
 	const userId = event.currentTarget.getAttribute("data-id");
 	const url = `/modules/friends/handlers/send_message_gateway.php?userId=${userId}`;
 	authorizeAction({ action: "send-message", userId: userId }).then((response) => {
-		let jsonObj = $.parseJSON(response);
+		const jsonObj = $.parseJSON(response);
 
 		switch (jsonObj.success) {
 			default:
@@ -277,7 +277,7 @@ function handleUserSearchInput(event) {
 function handleFriendRequestResponse(response) {
 	const originalModalContent = sessionStorage.getItem("originalModalContent");
 	const targetModal = document.querySelector("#addFriendsModal");
-	let jsonObj = $.parseJSON(response);
+	const jsonObj = $.parseJSON(response);
 
 	switch (jsonObj.success) {
 		default:
@@ -337,7 +337,7 @@ function handleAddFriendClick(event) {
 
 function handleResultsIntegration(response, { value }) {
 	const div = document.querySelector("div.search-results");
-	let jsonObj = $.parseJSON(response);
+	const jsonObj = $.parseJSON(response);
 
 	if (jsonObj.success === 0) {
 		alert(jsonObj.message);

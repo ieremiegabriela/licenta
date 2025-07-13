@@ -230,11 +230,11 @@ mysqli_stmt_close($stmt);
 
     <!-- Page Content -->
     <div class="container d-flex mt-3 px-2" style="height: calc(100% - 1.6rem);">
-        <div class="position-relative container d-flex flex-column col-lg-10 p-0 py-1 bg-light border border-2 border-primary-subtle shadow custom-border-radius h-100">
+        <div class="position-relative container d-flex flex-column col-lg-10 p-0 py-2 bg-light border border-2 border-primary-subtle shadow custom-border-radius h-100">
             <!-- Title -->
             <div class="pt-2 px-2 d-flex flex-row w-100">
                 <h1 class="fw-bold m-0 pb-1 text-dark border-bottom border-2 w-100">
-                    <a href="messenger.php">
+                    <a id="anchorBack" href="/messenger.php">
                         <i class="fa-solid fa-circle-left text-info"></i>
                     </a>
                     <span class=""><?php echo $output['data']['correspondentFullname']; ?></span>
