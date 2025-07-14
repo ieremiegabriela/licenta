@@ -13,26 +13,26 @@ require("{$_SERVER['DOCUMENT_ROOT']}/config/db_connect.php");
 // BEGIN - IDENTIFY CORRESPONDENT -------------------
 
 $sql =
-    "SELECT 
-        `pseudo`.*,
+    "SELECT `pseudo`.*,
         UNIX_TIMESTAMP(`pseudo`.`added_on`) AS `last_marked_timestamp`,
         IF(`pseudo`.`type` = 'safe', 'fa-solid fa-shield-halved', 'fa-solid fa-triangle-exclamation') AS `status_classes`,
         CONCAT_WS(' ', `users`.`firstname`, `users`.`lastname`) AS `name`
-
     FROM
         (SELECT *
         FROM `status`
-        WHERE `status`.`enabled` = 1
-        GROUP BY `status`.`added_by`
-        ORDER BY `status`.`id` DESC) AS `pseudo`
+        INNER JOIN
+            (SELECT MAX(`status`.`id`) AS `max_id`
+            FROM `status`
+            WHERE `status`.`enabled` = 1
+            GROUP BY `status`.`added_by`) AS `pseudo` ON `pseudo`.`max_id` = `status`.`id`) AS `pseudo`
     INNER JOIN `friends` ON (((`friends`.`sender` = `pseudo`.`added_by`
                             AND `friends`.`recipient` = ?)
                             OR (`friends`.`recipient` = `pseudo`.`added_by`
                                 AND `friends`.`sender` = ?))
                             AND `friends`.`accepted` = 1
                             AND `friends`.`enabled` = 1)
-    INNER JOIN `users` ON (`users`.`id` = `pseudo`.`added_by` AND
-                            `users`.`enabled` = 1)
+    INNER JOIN `users` ON (`users`.`id` = `pseudo`.`added_by`
+                        AND `users`.`enabled` = 1)
     ORDER BY FIELD(`pseudo`.`type`, 'danger', 'safe'),
             `pseudo`.`id` DESC";
 
