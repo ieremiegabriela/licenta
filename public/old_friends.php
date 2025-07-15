@@ -47,7 +47,7 @@ require("{$_SERVER['DOCUMENT_ROOT']}/config/db_connect.php");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Document</title>
+    <title>Marked as Safe</title>
 
     <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
 
