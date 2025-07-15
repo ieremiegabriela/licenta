@@ -34,9 +34,9 @@ endif;
                 <li class="nav-item">
                     <a id="messages" class="nav-link" aria-current="page" href="/messenger.php"><i class="fa-solid fa-envelope"></i>&nbsp;Messages</a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a id="settings" class="nav-link" aria-current="page" href="#"><i class="fa-solid fa-gear"></i>&nbsp;Settings</a>
-                </li>
+                </li> -->
                 <li class="nav-item">
                     <a id="logout" class="nav-link" aria-current="page" href="/modules/login/handlers/logout.php"><i class="fa-solid fa-arrow-right-from-bracket"></i>&nbsp;Logout</a>
                 </li>

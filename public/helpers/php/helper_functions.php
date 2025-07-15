@@ -28,7 +28,7 @@ endif;
 
 function getLocationOrigin() {
 
-    return (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]";
+    return (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://{$_SERVER['HTTP_HOST']}";
 }
 
 function getDockerOrigin() {

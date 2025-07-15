@@ -87,6 +87,5 @@ while (true) {
     // Stop execution if connection is aborted
     if (connection_aborted()) die;
 
-    // sleep(1);
     usleep(100000);
 }

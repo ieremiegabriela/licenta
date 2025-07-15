@@ -2,8 +2,6 @@
 
 // BEGIN - REQUESTING INITIAL DEPENDENCIES ----------
 
-use GrahamCampbell\ResultType\Success;
-
 if (!defined('load_env.php')) define('load_env.php', true);
 require("{$_SERVER['DOCUMENT_ROOT']}/config/load_env.php");
 
@@ -141,18 +139,19 @@ $stmt->bind_param($types, ...$params);
 
 if ($stmt->execute()):
 
-    $output = [
-        'success' => 1,
-        'message' => 'Success!',
-        'data' => $output['data']
-    ];
-
     $result = $stmt->get_result();
     if (!$result->num_rows) die();
 
     $row = $result->fetch_assoc();
-    $output['data']['correspondent'] = $row['correspondent'];
-    $output['data']['correspondentFullname'] = $row['correspondent_fullname'];
+
+    $output = [
+        'success' => 1,
+        'message' => 'Success!',
+        'data' => array_merge($output['data'], [
+            'correspondent' => $row['correspondent'],
+            'correspondentFullname' => $row['correspondent_fullname']
+        ])
+    ];
 else: die();
 endif;
 
@@ -163,27 +162,57 @@ mysqli_stmt_close($stmt);
 
 // BEGIN - AUTHORIZE ACTION -------------------------
 
-$ch = curl_init();
+$sql =
+    "SELECT
+        CASE
+            WHEN `pseudo`.`status` = 'Accepted' THEN 'send-message'
+            ELSE NULL
+        END AS `allowed_actions`
+        
+    FROM (
+        SELECT
+        	`friends`.`sender`,
+        	`friends`.`recipient`,
+            IF(`friends`.`accepted` = 1, 'Accepted', 'Pending') AS `status`,
+            IF(`friends`.`sender` = ?, `friends`.`recipient`, `friends`.`sender`) AS `correspondent`
 
-curl_setopt($ch, CURLOPT_URL, "{$_SESSION['DOCKER_ORIGIN']}/modules/chat/handlers/authorize_action.php");
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, [
-    'userId' => $output['data']['correspondent'],
-    'action' => "send-message"
-]);
+        FROM `friends`
+        WHERE `friends`.`enabled` = 1
+        AND ? IN (`friends`.`sender`, `friends`.`recipient`)) AS `pseudo`
+    LEFT JOIN `users` ON `users`.`id` = `pseudo`.`correspondent`
+    
+    WHERE `pseudo`.`correspondent` = ?
+    LIMIT 1";
 
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-curl_setopt($ch, CURLOPT_HEADER, false);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($ch, CURLOPT_COOKIE, "PHPSESSID={$_COOKIE['PHPSESSID']}; path=/");
-session_write_close();
+// --------------------------------------------------
 
-// Capture the response
-$response = curl_exec($ch);
-curl_close($ch);
+$params = array_fill(0, 2, $_SESSION['id']);
+$params[] = $output['data']['correspondent'];
+$types = str_repeat("i", sizeof($params));
 
-$jsonObj = (array)json_decode($response, true);
+$stmt = $mysqli->prepare($sql);
+$stmt->bind_param($types, ...$params);
+
+if ($stmt->execute()):
+
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+
+    if (!$result->num_rows) die();
+
+    $row['allowedActions'] = explode("|", $row['allowed_actions']);
+
+    $output = [
+        'success' => 1,
+        'message' => 'Success!',
+        'data' => array_merge($output['data'], [
+            'actionAuthorized' => in_array('send-message', $row['allowedActions'], true) ? true : false
+        ])
+    ];
+else: die();
+endif;
+
+mysqli_stmt_close($stmt);
 
 // END - AUTHORIZE ACTION ---------------------------
 
@@ -247,7 +276,7 @@ mysqli_stmt_close($stmt);
                 <?php
                 switch ($output['data']['rowCount']):
                     case true:
-                        if (!$jsonObj['success']):
+                        if (!$output['data']['actionAuthorized']):
                 ?>
                             <div class="message-container d-flex flex-column justify-content-center align-items-center mb-1 ms-auto me-auto">
                                 <div class="conv-info message bg-info-subtle p-2 custom-border-radius border">You can no longer correspond with this contact at this time</div>
@@ -289,7 +318,7 @@ mysqli_stmt_close($stmt);
             </div>
 
             <?php
-            if ($jsonObj['success']):
+            if ($output['data']['actionAuthorized']):
             ?>
                 <form name="sendMessageForm" id="sendMessageForm" class="d-flex p-2 border-0 w-100" action="#" autocomplete="off">
                     <input id="messageInput" name="messageInput" type="text" class="form-control me-1 custom-border-radius" placeholder="Type message..." autocomplete="off">
